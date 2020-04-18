@@ -1,3 +1,5 @@
+package View;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -34,7 +36,6 @@ public class LoginForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Biblioteka");
-        setPreferredSize(new java.awt.Dimension(500, 450));
         setResizable(false);
 
         jPasswordField1.setText("jPasswordField1");
