@@ -24,8 +24,7 @@ public class Adres {
     }
     
     
-    public Adres(int id, String miasto, String ulica, String kodPocztowy, String numerDomu) {
-        this.id = id;
+    public Adres(String miasto, String ulica, String kodPocztowy, String numerDomu) {
         this.miasto = miasto;
         this.ulica = ulica;
         this.kodPocztowy = kodPocztowy;

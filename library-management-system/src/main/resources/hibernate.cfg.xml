@@ -48,5 +48,6 @@ Contributor(s):
     <property name="hbm2ddl.auto">update</property>
     <mapping resource="map/Kategoria.hbm.xml"/>
     <mapping resource="map/Autor.hbm.xml"/>
+    <mapping resource="map/Adres.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
