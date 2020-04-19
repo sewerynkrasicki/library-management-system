@@ -19,18 +19,23 @@ public class Adres {
     private String miasto;
     private String ulica;
     private String kodPocztowy;
-    
+    private String numerDomu;
     public Adres() {
     }
     
     
-    public Adres(int id, String miasto, String ulica, String kodPocztowy) {
+    public Adres(int id, String miasto, String ulica, String kodPocztowy, String numerDomu) {
         this.id = id;
         this.miasto = miasto;
         this.ulica = ulica;
         this.kodPocztowy = kodPocztowy;
+        this.numerDomu = numerDomu;
     }
     
+    
+    public String getNumerDomu() {
+        return numerDomu;
+    }
     
     public int getId() {
         return id;
@@ -64,5 +69,10 @@ public class Adres {
     public void setKodPocztowy(String kodPocztowy) {
         this.kodPocztowy = kodPocztowy;
     }
+    
+    public void setNumerDomu(String numerDomu) {
+        this.numerDomu = numerDomu;
+    }
+    
     
 }
