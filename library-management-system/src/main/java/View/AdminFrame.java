@@ -31,7 +31,8 @@ public class AdminFrame extends javax.swing.JFrame {
         addBook7 = new javax.swing.JButton();
         bookButton = new javax.swing.JButton();
         categoryButton = new javax.swing.JButton();
-        authorButton = new javax.swing.JButton();
+        addressButton = new javax.swing.JButton();
+        authorButton1 = new javax.swing.JButton();
 
         addBook7.setText("jButton1");
         addBook7.setMaximumSize(new java.awt.Dimension(128, 128));
@@ -57,10 +58,15 @@ public class AdminFrame extends javax.swing.JFrame {
             }
         });
 
-        authorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/author.png"))); // NOI18N
-        authorButton.setMaximumSize(new java.awt.Dimension(64, 64));
-        authorButton.setMinimumSize(new java.awt.Dimension(64, 64));
-        authorButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        addressButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/living.png"))); // NOI18N
+        addressButton.setMaximumSize(new java.awt.Dimension(64, 64));
+        addressButton.setMinimumSize(new java.awt.Dimension(64, 64));
+        addressButton.setPreferredSize(new java.awt.Dimension(64, 64));
+
+        authorButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/author.png"))); // NOI18N
+        authorButton1.setMaximumSize(new java.awt.Dimension(64, 64));
+        authorButton1.setMinimumSize(new java.awt.Dimension(64, 64));
+        authorButton1.setPreferredSize(new java.awt.Dimension(64, 64));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,15 +78,18 @@ public class AdminFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(authorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addComponent(authorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(addressButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(284, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(authorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(authorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(200, Short.MAX_VALUE))
@@ -130,7 +139,8 @@ public class AdminFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBook7;
-    private javax.swing.JButton authorButton;
+    private javax.swing.JButton addressButton;
+    private javax.swing.JButton authorButton1;
     private javax.swing.JButton bookButton;
     private javax.swing.JButton categoryButton;
     // End of variables declaration//GEN-END:variables

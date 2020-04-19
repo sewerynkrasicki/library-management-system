@@ -21,12 +21,12 @@ import static util.HibernateUtil.getSessionFactory;
  *
  * @author 35747
  */
-public class categoryCreator extends javax.swing.JFrame {
+public class CategoryCreator extends javax.swing.JFrame {
 
     /**
      * Creates new form categoryCreator
      */
-    public categoryCreator() {
+    public CategoryCreator() {
         initComponents();
     }
 
@@ -153,10 +153,11 @@ public class categoryCreator extends javax.swing.JFrame {
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(addCategory)
-                        .addComponent(recordCategory)
-                        .addComponent(deleteCategory))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(deleteCategory, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addCategory)
+                            .addComponent(recordCategory)))
                     .addComponent(readButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,7 +173,7 @@ public class categoryCreator extends javax.swing.JFrame {
             kat.createCategory(nameField.getText());
             categoryTable.setModel(dtm(kat.readCategory()));
         } catch (Exception ex) {
-            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addCategoryActionPerformed
 
@@ -186,7 +187,7 @@ public class categoryCreator extends javax.swing.JFrame {
             kat.updateCategory(id, nameField.getText());
             categoryTable.setModel(dtm(kat.readCategory()));
         } catch (Exception ex) {
-            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordCategoryActionPerformed
 
@@ -200,7 +201,7 @@ public class categoryCreator extends javax.swing.JFrame {
             kat.deleteCategory(id);
             categoryTable.setModel(dtm(kat.readCategory()));
         } catch (Exception ex) {
-            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deleteCategoryActionPerformed
 
@@ -210,7 +211,7 @@ public class categoryCreator extends javax.swing.JFrame {
             KategoriaDAO kat = new KategoriaDAO();
             categoryTable.setModel(dtm(kat.readCategory()));
         } catch (Exception ex) {
-            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readButtonActionPerformed
 
@@ -256,20 +257,21 @@ public class categoryCreator extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(categoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(categoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(categoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(categoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new categoryCreator().setVisible(true);
+                new CategoryCreator().setVisible(true);
             }
         });
     }

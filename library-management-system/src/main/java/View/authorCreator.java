@@ -23,12 +23,12 @@ import static util.HibernateUtil.getSessionFactory;
  *
  * @author 35747
  */
-public class authorCreator extends javax.swing.JFrame {
+public class AuthorCreator extends javax.swing.JFrame {
 
     /**
      * Creates new form categoryCreator
      */
-    public authorCreator() {
+    public AuthorCreator() {
         initComponents();
     }
 
@@ -223,7 +223,7 @@ public class authorCreator extends javax.swing.JFrame {
             aut.createAuthor(firstNameField.getText(), secondNameField.getText(), countryField.getText(), centuryField.getText());
             authorTable.setModel(dtm(aut.readAuthor()));
         } catch (Exception ex) {
-            Logger.getLogger(authorCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addAuthorActionPerformed
 
@@ -237,7 +237,7 @@ public class authorCreator extends javax.swing.JFrame {
             aut.updateAuthor(id, firstNameField.getText(), secondNameField.getText(), countryField.getText(), centuryField.getText());
             authorTable.setModel(dtm(aut.readAuthor()));
         } catch (Exception ex) {
-            Logger.getLogger(authorCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordAuthorActionPerformed
 
@@ -251,7 +251,7 @@ public class authorCreator extends javax.swing.JFrame {
             aut.deleteAuthor(id);
             authorTable.setModel(dtm(aut.readAuthor()));
         } catch (Exception ex) {
-            Logger.getLogger(authorCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deleteAuthorActionPerformed
 
@@ -261,7 +261,7 @@ public class authorCreator extends javax.swing.JFrame {
             AutorDAO aut = new AutorDAO();
             authorTable.setModel(dtm(aut.readAuthor()));
         } catch (Exception ex) {
-            Logger.getLogger(authorCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readAuthorActionPerformed
 
@@ -314,21 +314,23 @@ public class authorCreator extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(authorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(authorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(authorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(authorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthorCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new authorCreator().setVisible(true);
+                new AuthorCreator().setVisible(true);
             }
         });
     }
