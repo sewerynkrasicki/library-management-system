@@ -1,4 +1,4 @@
-package View;
+package view;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,30 +29,8 @@ public class AdminFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         addBook7 = new javax.swing.JButton();
-        addBook = new javax.swing.JButton();
-        readBook = new javax.swing.JButton();
-        updateBook = new javax.swing.JButton();
-        deleteBook = new javax.swing.JButton();
-        addCategory = new javax.swing.JButton();
-        readCategory = new javax.swing.JButton();
-        updateCategory = new javax.swing.JButton();
-        deleteCategory = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        addAuthor = new javax.swing.JButton();
-        addBook2 = new javax.swing.JButton();
-        readAuthor = new javax.swing.JButton();
-        updateAuthor = new javax.swing.JButton();
-        deleteAuthor = new javax.swing.JButton();
-        addBook6 = new javax.swing.JButton();
-        addBook8 = new javax.swing.JButton();
-        addBook9 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        bookButton = new javax.swing.JButton();
+        categoryButton = new javax.swing.JButton();
 
         addBook7.setText("jButton1");
         addBook7.setMaximumSize(new java.awt.Dimension(128, 128));
@@ -61,218 +39,50 @@ public class AdminFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        addBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/book.png"))); // NOI18N
-        addBook.setToolTipText("");
-        addBook.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addBook.setMaximumSize(new java.awt.Dimension(128, 128));
-        addBook.setMinimumSize(new java.awt.Dimension(128, 128));
-        addBook.setPreferredSize(new java.awt.Dimension(64, 64));
+        bookButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/book.png"))); // NOI18N
+        bookButton.setToolTipText("");
+        bookButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bookButton.setMaximumSize(new java.awt.Dimension(128, 128));
+        bookButton.setMinimumSize(new java.awt.Dimension(128, 128));
+        bookButton.setPreferredSize(new java.awt.Dimension(64, 64));
 
-        readBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
-        readBook.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        readBook.setMaximumSize(new java.awt.Dimension(128, 128));
-        readBook.setMinimumSize(new java.awt.Dimension(128, 128));
-        readBook.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        updateBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/wrench.png"))); // NOI18N
-        updateBook.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        updateBook.setMaximumSize(new java.awt.Dimension(128, 128));
-        updateBook.setMinimumSize(new java.awt.Dimension(128, 128));
-        updateBook.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        deleteBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/trash.png"))); // NOI18N
-        deleteBook.setMaximumSize(new java.awt.Dimension(128, 128));
-        deleteBook.setMinimumSize(new java.awt.Dimension(128, 128));
-        deleteBook.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        addCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/create.png"))); // NOI18N
-        addCategory.setMaximumSize(new java.awt.Dimension(128, 128));
-        addCategory.setMinimumSize(new java.awt.Dimension(128, 128));
-        addCategory.setPreferredSize(new java.awt.Dimension(64, 64));
-        addCategory.addActionListener(new java.awt.event.ActionListener() {
+        categoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/create.png"))); // NOI18N
+        categoryButton.setMaximumSize(new java.awt.Dimension(128, 128));
+        categoryButton.setMinimumSize(new java.awt.Dimension(128, 128));
+        categoryButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        categoryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCategoryActionPerformed(evt);
+                categoryButtonActionPerformed(evt);
             }
         });
-
-        readCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search.png"))); // NOI18N
-        readCategory.setMaximumSize(new java.awt.Dimension(128, 128));
-        readCategory.setMinimumSize(new java.awt.Dimension(128, 128));
-        readCategory.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        updateCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wrench.png"))); // NOI18N
-        updateCategory.setMaximumSize(new java.awt.Dimension(128, 128));
-        updateCategory.setMinimumSize(new java.awt.Dimension(128, 128));
-        updateCategory.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        deleteCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trash.png"))); // NOI18N
-        deleteCategory.setMaximumSize(new java.awt.Dimension(128, 128));
-        deleteCategory.setMinimumSize(new java.awt.Dimension(128, 128));
-        deleteCategory.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        addAuthor.setMaximumSize(new java.awt.Dimension(128, 128));
-        addAuthor.setMinimumSize(new java.awt.Dimension(128, 128));
-        addAuthor.setPreferredSize(new java.awt.Dimension(64, 64));
-        addAuthor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAuthorActionPerformed(evt);
-            }
-        });
-
-        addBook2.setText("jButton1");
-        addBook2.setMaximumSize(new java.awt.Dimension(128, 128));
-        addBook2.setMinimumSize(new java.awt.Dimension(128, 128));
-        addBook2.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        readAuthor.setMaximumSize(new java.awt.Dimension(128, 128));
-        readAuthor.setMinimumSize(new java.awt.Dimension(128, 128));
-        readAuthor.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        updateAuthor.setMaximumSize(new java.awt.Dimension(128, 128));
-        updateAuthor.setMinimumSize(new java.awt.Dimension(128, 128));
-        updateAuthor.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        deleteAuthor.setMaximumSize(new java.awt.Dimension(128, 128));
-        deleteAuthor.setMinimumSize(new java.awt.Dimension(128, 128));
-        deleteAuthor.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        addBook6.setText("jButton1");
-        addBook6.setMaximumSize(new java.awt.Dimension(128, 128));
-        addBook6.setMinimumSize(new java.awt.Dimension(128, 128));
-        addBook6.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        addBook8.setText("jButton1");
-        addBook8.setMaximumSize(new java.awt.Dimension(128, 128));
-        addBook8.setMinimumSize(new java.awt.Dimension(128, 128));
-        addBook8.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        addBook9.setText("jButton1");
-        addBook9.setMaximumSize(new java.awt.Dimension(128, 128));
-        addBook9.setMinimumSize(new java.awt.Dimension(128, 128));
-        addBook9.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        jLabel1.setText("Książka");
-
-        jLabel2.setText("Dodaj");
-
-        jLabel3.setText("Wyświetl");
-
-        jLabel4.setText("Zmodyfikuj");
-
-        jLabel5.setText("Usuń");
-
-        jLabel6.setText("Kategoria");
-
-        jLabel7.setText("Autor");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap()
+                .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(deleteBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(updateBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(readBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(addBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(updateCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(updateAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(addBook6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(deleteCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(addBook8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(readCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(readAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(addBook9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(addBook2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(448, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(142, 142, 142)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addBook2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(readBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(readCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(readAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addBook9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(updateBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(updateCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(updateAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addBook6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(deleteBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(deleteCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(deleteAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addBook8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
+    private void categoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addCategoryActionPerformed
-
-    private void addAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAuthorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addAuthorActionPerformed
+    }//GEN-LAST:event_categoryButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,30 +120,8 @@ public class AdminFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addAuthor;
-    private javax.swing.JButton addBook;
-    private javax.swing.JButton addBook2;
-    private javax.swing.JButton addBook6;
     private javax.swing.JButton addBook7;
-    private javax.swing.JButton addBook8;
-    private javax.swing.JButton addBook9;
-    private javax.swing.JButton addCategory;
-    private javax.swing.JButton deleteAuthor;
-    private javax.swing.JButton deleteBook;
-    private javax.swing.JButton deleteCategory;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton readAuthor;
-    private javax.swing.JButton readBook;
-    private javax.swing.JButton readCategory;
-    private javax.swing.JButton updateAuthor;
-    private javax.swing.JButton updateBook;
-    private javax.swing.JButton updateCategory;
+    private javax.swing.JButton bookButton;
+    private javax.swing.JButton categoryButton;
     // End of variables declaration//GEN-END:variables
 }
