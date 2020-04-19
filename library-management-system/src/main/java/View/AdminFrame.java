@@ -31,6 +31,7 @@ public class AdminFrame extends javax.swing.JFrame {
         addBook7 = new javax.swing.JButton();
         bookButton = new javax.swing.JButton();
         categoryButton = new javax.swing.JButton();
+        authorButton = new javax.swing.JButton();
 
         addBook7.setText("jButton1");
         addBook7.setMaximumSize(new java.awt.Dimension(128, 128));
@@ -56,6 +57,11 @@ public class AdminFrame extends javax.swing.JFrame {
             }
         });
 
+        authorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/author.png"))); // NOI18N
+        authorButton.setMaximumSize(new java.awt.Dimension(64, 64));
+        authorButton.setMinimumSize(new java.awt.Dimension(64, 64));
+        authorButton.setPreferredSize(new java.awt.Dimension(64, 64));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -65,16 +71,19 @@ public class AdminFrame extends javax.swing.JFrame {
                 .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(authorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(366, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
+                .addGap(136, 136, 136)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(authorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,6 +130,7 @@ public class AdminFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBook7;
+    private javax.swing.JButton authorButton;
     private javax.swing.JButton bookButton;
     private javax.swing.JButton categoryButton;
     // End of variables declaration//GEN-END:variables

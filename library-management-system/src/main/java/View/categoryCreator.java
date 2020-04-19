@@ -4,7 +4,19 @@
  * and open the template in the editor.
  */
 package view;
-
+import POJO.Kategoria;
+import static dao.DAO.getSession;
+import dao.DAO;
+import dao.KategoriaDAO;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import org.hibernate.SessionFactory;
+import org.hibernate.annotations.Source;
+import org.hibernate.cfg.Configuration;
+import static util.HibernateUtil.getSessionFactory;
 /**
  *
  * @author 35747
@@ -34,21 +46,47 @@ public class categoryCreator extends javax.swing.JFrame {
         deleteCategory = new javax.swing.JButton();
         nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
+        readButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         categoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "id_kategorii", "nazwa"
+                "id", "nazwa"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        });
+        categoryTable.setColumnSelectionAllowed(true);
+        categoryTable.setShowGrid(true);
+        categoryTable.getTableHeader().setReorderingAllowed(false);
+        categoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                categoryTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(categoryTable);
+        categoryTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (categoryTable.getColumnModel().getColumnCount() > 0) {
+            categoryTable.getColumnModel().getColumn(0).setResizable(false);
+            categoryTable.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         addCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wizard.png"))); // NOI18N
         addCategory.addActionListener(new java.awt.event.ActionListener() {
@@ -58,13 +96,30 @@ public class categoryCreator extends javax.swing.JFrame {
         });
 
         recordCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/support.png"))); // NOI18N
+        recordCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recordCategoryActionPerformed(evt);
+            }
+        });
 
         deleteCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trash.png"))); // NOI18N
+        deleteCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCategoryActionPerformed(evt);
+            }
+        });
 
         nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         nameLabel.setText("Nazwa kategorii");
 
         nameField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        readButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search.png"))); // NOI18N
+        readButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,6 +133,8 @@ public class categoryCreator extends javax.swing.JFrame {
                         .addComponent(addCategory)
                         .addGap(18, 18, 18)
                         .addComponent(recordCategory)
+                        .addGap(18, 18, 18)
+                        .addComponent(readButton)
                         .addGap(18, 18, 18)
                         .addComponent(deleteCategory)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -94,11 +151,13 @@ public class categoryCreator extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(nameLabel)
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addCategory)
-                    .addComponent(recordCategory)
-                    .addComponent(deleteCategory))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addCategory)
+                        .addComponent(recordCategory)
+                        .addComponent(deleteCategory))
+                    .addComponent(readButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -108,9 +167,78 @@ public class categoryCreator extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
-        // TODO add your handling code here:
+        try {
+            KategoriaDAO kat = new KategoriaDAO();
+            kat.createCategory(nameField.getText());
+            categoryTable.setModel(dtm(kat.readCategory()));
+        } catch (Exception ex) {
+            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_addCategoryActionPerformed
 
+    private void recordCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordCategoryActionPerformed
+        // TODO add your handling code here:
+        try {
+            KategoriaDAO kat = new KategoriaDAO();
+            int selectedRow = categoryTable.getSelectedRow();
+            DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
+            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+            kat.updateCategory(id, nameField.getText());
+            categoryTable.setModel(dtm(kat.readCategory()));
+        } catch (Exception ex) {
+            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_recordCategoryActionPerformed
+
+    private void deleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCategoryActionPerformed
+        // TODO add your handling code here:
+        try {
+            KategoriaDAO kat = new KategoriaDAO();
+            int selectedRow = categoryTable.getSelectedRow();
+            DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
+            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+            kat.deleteCategory(id);
+            categoryTable.setModel(dtm(kat.readCategory()));
+        } catch (Exception ex) {
+            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_deleteCategoryActionPerformed
+
+    private void readButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            KategoriaDAO kat = new KategoriaDAO();
+            categoryTable.setModel(dtm(kat.readCategory()));
+        } catch (Exception ex) {
+            Logger.getLogger(categoryCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_readButtonActionPerformed
+
+    private void categoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryTableMouseClicked
+        // TODO add your handling code here:
+            int selectedRow = categoryTable.getSelectedRow();
+            DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
+            String text1 = (String)dt.getValueAt(selectedRow,1);
+            nameField.setText(text1);
+    }//GEN-LAST:event_categoryTableMouseClicked
+
+    private DefaultTableModel dtm(List<Kategoria> kat){
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory(); 
+        String[] propNames = sessionFactory.getClassMetadata(Kategoria.class).getPropertyNames();
+        ArrayList<String> arrL = new ArrayList<String>();
+        arrL.add(sessionFactory.getClassMetadata(Kategoria.class).getIdentifierPropertyName());
+        for(int i=0; i<propNames.length; i++){
+            arrL.add(propNames[i]);
+        }
+        String[] columnNames = arrL.toArray(new String[0]);
+        DefaultTableModel tab = new DefaultTableModel(columnNames, 0);
+        for(Kategoria k:kat){
+            String[] row = {String.valueOf(k.getId()), k.getNazwa()};
+            tab.addRow(row);
+        }
+        return tab;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -153,6 +281,7 @@ public class categoryCreator extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
+    private javax.swing.JButton readButton;
     private javax.swing.JButton recordCategory;
     // End of variables declaration//GEN-END:variables
 }

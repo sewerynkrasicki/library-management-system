@@ -28,19 +28,19 @@ public class KategoriaDAO extends DAO{
         }
     }
     
-    public List<Kategoria> readCategory() throws Exception{
-		try{
-			begin();
-			Query q = getSession().createQuery("from Kategoria");
-			List<Kategoria> list = q.list();
-			commit();
-			return list;
-		}
-		catch(HibernateException ex){
-			rollback();
-			throw new Exception("Nie moge znaleźć kategorii",ex);
-		}	
-	}
+public List<Kategoria> readCategory() throws Exception{
+    try{
+        begin();
+        Query q = getSession().createQuery("from Kategoria");
+        List<Kategoria> list = q.list();
+        commit();
+        return list;
+    }
+    catch(HibernateException ex){
+        rollback();
+        throw new Exception("Nie moge znaleźć kategorii",ex);
+    }
+}
     
     public void updateCategory(int KategoriaID, String nazwa) throws Exception{
         try{
@@ -53,7 +53,7 @@ public class KategoriaDAO extends DAO{
         {
             rollback();
             throw new Exception("Nie moge zmodyfikować kategorii");
-        }
+        }	
     }
     
     public void deleteCategory(int kategoriaID) throws Exception{
@@ -65,6 +65,6 @@ public class KategoriaDAO extends DAO{
         }catch(HibernateException ex){
             rollback();
             throw new Exception("Nie moge usunąć kategorii");
-        }
+        }	
     }
 }
