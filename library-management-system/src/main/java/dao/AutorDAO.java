@@ -29,7 +29,7 @@ public class AutorDAO extends DAO{
         }
     }
     
-public List<Autor> readAutor() throws Exception{
+public List<Autor> readAuthor() throws Exception{
     try{
         begin();
         Query q = getSession().createQuery("from Autor");
