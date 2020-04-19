@@ -47,5 +47,6 @@ Contributor(s):
     <property name="hibernate.connection.password">20sql$@19</property>
     <property name="hbm2ddl.auto">update</property>
     <mapping resource="map/Kategoria.hbm.xml"/>
+    <mapping resource="map/Autor.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
