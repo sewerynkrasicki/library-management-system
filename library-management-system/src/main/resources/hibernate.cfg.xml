@@ -49,5 +49,6 @@ Contributor(s):
     <mapping resource="map/Kategoria.hbm.xml"/>
     <mapping resource="map/Autor.hbm.xml"/>
     <mapping resource="map/Adres.hbm.xml"/>
+    <mapping resource="map/Wydawnictwo.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
