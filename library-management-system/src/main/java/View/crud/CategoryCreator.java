@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.crud;
 import POJO.Kategoria;
 import static dao.DAO.getSession;
 import dao.DAO;
