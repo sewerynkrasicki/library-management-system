@@ -6,19 +6,13 @@
 package view.crud;
 import POJO.Adres;
 import dao.AdresDAO;
-import dao.AutorDAO;
-import static dao.DAO.getSession;
-import dao.DAO;
-import dao.KategoriaDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
-import org.hibernate.annotations.Source;
 import org.hibernate.cfg.Configuration;
-import static util.HibernateUtil.getSessionFactory;
 /**
  *
  * @author 35747
