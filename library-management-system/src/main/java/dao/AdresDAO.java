@@ -71,4 +71,18 @@ public List<Adres> readAddress() throws Exception{
             throw new Exception("Nie moge usunąć adresu");
         }	
     }
+    
+    public Adres getAddress(int addressID) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Adres where id = :addressID");
+            q.setString("addressID", Integer.toString(addressID));
+            Adres adres = (Adres)q.uniqueResult();
+            commit();
+            return adres;
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego adresu");
+        }	
+    }
 }

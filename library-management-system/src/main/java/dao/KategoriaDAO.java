@@ -67,4 +67,18 @@ public List<Kategoria> readCategory() throws Exception{
             throw new Exception("Nie moge usunąć kategorii");
         }	
     }
+    
+        public Kategoria getCategory(String category) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Kategoria where id = :category");
+            q.setString("category", category);
+            Kategoria kat = (Kategoria)q.uniqueResult();
+            commit();
+            return kat;
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnej kategorii");
+        }	
+    }
 }

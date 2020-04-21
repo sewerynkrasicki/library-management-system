@@ -68,4 +68,18 @@ public List<Rola> readRole() throws Exception{
             throw new Exception("Nie moge usunąć roli");
         }	
     }
+    
+        public Rola getRole(int roleID) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Rola where id = :roleID");
+            q.setString("roleID", Integer.toString(roleID));
+            Rola rol = (Rola)q.uniqueResult();
+            commit();
+            return rol;
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnej roli");
+        }	
+    }
 }

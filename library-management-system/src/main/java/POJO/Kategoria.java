@@ -5,6 +5,7 @@
  */
 package POJO;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 public class Kategoria {
     @Id
     private int id;
+    @Column(nullable=false, unique=true)
     private String nazwa;
     
     public Kategoria(){

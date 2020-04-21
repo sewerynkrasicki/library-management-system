@@ -1,5 +1,6 @@
 package POJO;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -17,9 +18,13 @@ import javax.persistence.Id;
 public class Autor {
     @Id
     private int id;
+    @Column(nullable=false)
     private String imie;
+    @Column(nullable=false)
     private String nazwisko;
+    @Column(nullable=false)
     private String miejsceUrodzenia;
+    @Column(nullable=false)
     private String wiekDzialania;
     
     public Autor(){

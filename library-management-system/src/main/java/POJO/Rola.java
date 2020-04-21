@@ -5,6 +5,7 @@
  */
 package POJO;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,8 +16,9 @@ import javax.persistence.Id;
 @Entity
 public class Rola {
     @Id
-    int id;
-    String userType;
+    private int id;
+    @Column(nullable=false)
+    private String userType;
     
     public Rola() {
     }

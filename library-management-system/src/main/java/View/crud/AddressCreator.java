@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -35,6 +37,7 @@ public class AddressCreator extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         AddressTable = new javax.swing.JTable();
         addAddress = new javax.swing.JButton();
@@ -49,6 +52,17 @@ public class AddressCreator extends javax.swing.JFrame {
         postalCodeLabel = new javax.swing.JLabel();
         houseNrField = new javax.swing.JTextField();
         streetField = new javax.swing.JTextField();
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -215,9 +229,17 @@ public class AddressCreator extends javax.swing.JFrame {
 
     private void addAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAddressActionPerformed
         try {
-            AdresDAO adr = new AdresDAO();
-            adr.createAddress(cityField.getText(), streetField.getText(), postalCodeField.getText(), houseNrField.getText());
-            AddressTable.setModel(dtm(adr.readAddress()));
+            if((cityField.getText().isEmpty() || streetField.getText().isEmpty() || postalCodeField.getText().isEmpty() || houseNrField.getText().isEmpty()))
+            {
+                JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(!Pattern.matches("[a-zA-Z]*", cityField.getText())){
+                JOptionPane.showMessageDialog(this, "Miasto może zawierać tylko litery.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }            
+            else{
+                AdresDAO adr = new AdresDAO();
+                adr.createAddress(cityField.getText(), streetField.getText(), postalCodeField.getText(), houseNrField.getText());
+                AddressTable.setModel(dtm(adr.readAddress()));
+            }
         } catch (Exception ex) {
             Logger.getLogger(AddressCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -226,12 +248,16 @@ public class AddressCreator extends javax.swing.JFrame {
     private void recordAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordAddressActionPerformed
         // TODO add your handling code here:
         try {
-            AdresDAO adr = new AdresDAO();
-            int selectedRow = AddressTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)AddressTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            adr.updateAddress(id, cityField.getText(), streetField.getText(), postalCodeField.getText(), houseNrField.getText());
-            AddressTable.setModel(dtm(adr.readAddress()));
+            if(AddressTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                AdresDAO adr = new AdresDAO();
+                int selectedRow = AddressTable.getSelectedRow();
+                DefaultTableModel dt = (DefaultTableModel)AddressTable.getModel();
+                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                adr.updateAddress(id, cityField.getText(), streetField.getText(), postalCodeField.getText(), houseNrField.getText());
+                AddressTable.setModel(dtm(adr.readAddress()));
+            }
         } catch (Exception ex) {
             Logger.getLogger(AddressCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -240,12 +266,16 @@ public class AddressCreator extends javax.swing.JFrame {
     private void deleteAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAddressActionPerformed
         // TODO add your handling code here:
         try {
-            AdresDAO adr = new AdresDAO();
-            int selectedRow = AddressTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)AddressTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            adr.deleteAddress(id);
-            AddressTable.setModel(dtm(adr.readAddress()));
+            if(AddressTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                AdresDAO adr = new AdresDAO();
+                int selectedRow = AddressTable.getSelectedRow();
+                DefaultTableModel dt = (DefaultTableModel)AddressTable.getModel();
+                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                adr.deleteAddress(id);
+                AddressTable.setModel(dtm(adr.readAddress()));
+            }
         } catch (Exception ex) {
             Logger.getLogger(AddressCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -343,6 +373,7 @@ public class AddressCreator extends javax.swing.JFrame {
     private javax.swing.JButton deleteAddress;
     private javax.swing.JTextField houseNrField;
     private javax.swing.JLabel houseNrLabel;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField postalCodeField;
     private javax.swing.JLabel postalCodeLabel;

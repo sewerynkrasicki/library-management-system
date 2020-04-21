@@ -5,6 +5,7 @@
  */
 package POJO;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,11 +16,15 @@ import javax.persistence.Id;
 @Entity
 public class Wydawnictwo {
     @Id
-    int id;
-    String nazwa;
-    String miasto;
-    String REGON;
-    String NIP;
+    private int id;
+    @Column(nullable=false)
+    private String nazwa;
+    @Column(nullable=false)
+    private String miasto;
+    @Column(nullable=false)
+    private String REGON;
+    @Column(nullable=false)
+    private String NIP;
     
     public Wydawnictwo() {
     }

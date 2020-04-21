@@ -71,4 +71,18 @@ public List<Wydawnictwo> readPublisher() throws Exception{
             throw new Exception("Nie moge usunąć wydawnictwa");
         }	
     }
+    
+        public Wydawnictwo getPublisher(int wydawnictwoID) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Wydawnictwo where id = :wydawnictwoID");
+            q.setString("wydawnictwoID", Integer.toString(wydawnictwoID));
+            Wydawnictwo wyd = (Wydawnictwo)q.uniqueResult();
+            commit();
+            return wyd;
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego wydawnictwa");
+        }	
+    }
 }

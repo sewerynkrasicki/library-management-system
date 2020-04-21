@@ -5,6 +5,7 @@
  */
 package POJO;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -16,9 +17,13 @@ import javax.persistence.Id;
 public class Adres {
     @Id
     private int id;
+    @Column(nullable=false)
     private String miasto;
+    @Column(nullable=false)
     private String ulica;
+    @Column(nullable=false)
     private String kodPocztowy;
+    @Column(nullable=false)
     private String numerDomu;
     public Adres() {
     }
@@ -39,7 +44,6 @@ public class Adres {
     public int getId() {
         return id;
     }
-
     public String getMiasto() {
         return miasto;
     }
