@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <!--
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
@@ -39,19 +38,24 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=biblioteka</property>
-    <property name="hibernate.connection.username">sewSQL</property>
-    <property name="hibernate.connection.password">20sql$@19</property>
-    <property name="hbm2ddl.auto">update</property>
-    <mapping resource="map/Kategoria.hbm.xml"/>
-    <mapping resource="map/Autor.hbm.xml"/>
-    <mapping resource="map/Adres.hbm.xml"/>
-    <mapping resource="map/Wydawnictwo.hbm.xml"/>
-    <mapping resource="map/Rola.hbm.xml"/>
-    <mapping resource="map/Ksiazka.hbm.xml"/>
-    <mapping resource="map/Czytelnik.hbm.xml"/>
-  </session-factory>
-</hibernate-configuration>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "POJO.Bibliotekarz" table="Bibliotekarz">
+        <meta attribute = "class-description">Klasa zawiera informacje o bibliotekarzach</meta>
+        <id name="id" type="integer" column="id">
+            <generator class="native"/>
+        </id>
+        
+        <property name="imie" column="imie" type="string"/>
+        <property name="nazwisko" column="nazwisko" type="string"/>
+        <property name="login" column="login" type="string"/>
+        <property name="haslo" column="haslo" type="string"/>
+        <property name="email" column="email" type="string"/>
+        <many-to-one name="adres" class="POJO.Adres" column="adres_id" not-null="true"/>
+        <many-to-one name="rola" class="POJO.Rola" column="rola_id" not-null="true"/>
+    </class>
+</hibernate-mapping>

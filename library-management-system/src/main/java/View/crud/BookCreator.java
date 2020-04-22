@@ -4,16 +4,8 @@
  * and open the template in the editor.
  */
 package view.crud;
-import POJO.Adres;
-import POJO.Autor;
-import POJO.Kategoria;
 import POJO.Ksiazka;
-import POJO.Wydawnictwo;
-import dao.AdresDAO;
-import dao.AutorDAO;
-import dao.KategoriaDAO;
 import dao.KsiazkaDAO;
-import dao.WydawnictwoDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -85,28 +77,6 @@ public class BookCreator extends javax.swing.JFrame {
                 return false;
             };
         };
-        bookTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "id", "tytuł", "opis", "rok_wydania", "cena_biblioteki", "id_kategorii", "id_autora", "id_wydawnictwa"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         bookTable.setColumnSelectionAllowed(true);
         bookTable.setShowGrid(true);
         bookTable.getTableHeader().setReorderingAllowed(false);
@@ -117,16 +87,6 @@ public class BookCreator extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(bookTable);
         bookTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (bookTable.getColumnModel().getColumnCount() > 0) {
-            bookTable.getColumnModel().getColumn(0).setResizable(false);
-            bookTable.getColumnModel().getColumn(1).setResizable(false);
-            bookTable.getColumnModel().getColumn(2).setResizable(false);
-            bookTable.getColumnModel().getColumn(3).setResizable(false);
-            bookTable.getColumnModel().getColumn(4).setResizable(false);
-            bookTable.getColumnModel().getColumn(5).setResizable(false);
-            bookTable.getColumnModel().getColumn(6).setResizable(false);
-            bookTable.getColumnModel().getColumn(7).setResizable(false);
-        }
 
         addBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wizard.png"))); // NOI18N
         addBook.addActionListener(new java.awt.event.ActionListener() {

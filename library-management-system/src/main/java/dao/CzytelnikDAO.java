@@ -33,7 +33,7 @@ public class CzytelnikDAO extends DAO{
             return czytelnik;
         }catch(HibernateException ex){
             rollback();
-            throw new Exception("Nie moge stworzyć czytelnika");
+            throw new Exception("Nie moge stworzyć czytelnika "+ex);
         }
     }
     

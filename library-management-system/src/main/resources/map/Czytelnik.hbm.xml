@@ -54,6 +54,7 @@ Contributor(s):
         <property name="nazwisko" column="nazwisko" type="string"/>
         <property name="login" column="login" type="string"/>
         <property name="haslo" column="haslo" type="string"/>
+        <property name="email" column="email" type="string"/>
         <many-to-one name="adres" class="POJO.Adres" column="adres_id" not-null="true"/>
         <many-to-one name="rola" class="POJO.Rola" column="rola_id" not-null="true"/>
     </class>
