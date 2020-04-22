@@ -52,6 +52,12 @@ public class AuthorCreator extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        authorTable = new javax.swing.JTable()
+        {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            };
+        };
         authorTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

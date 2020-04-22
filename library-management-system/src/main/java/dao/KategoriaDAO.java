@@ -68,17 +68,17 @@ public List<Kategoria> readCategory() throws Exception{
         }	
     }
     
-        public Kategoria getCategory(String category) throws Exception{
+        public Kategoria getCategory(int category) throws Exception{
          try{
             begin();
             Query q = getSession().createQuery("FROM Kategoria where id = :category");
-            q.setString("category", category);
+            q.setParameter("category", category);
             Kategoria kat = (Kategoria)q.uniqueResult();
             commit();
             return kat;
         }catch(HibernateException ex){
             rollback();
-            throw new Exception("Nie moge znaleźć konkretnej kategorii");
+            throw new Exception("Nie moge znaleźć konkretnej kategorii "+ex);
         }	
     }
 }

@@ -76,7 +76,7 @@ public List<Wydawnictwo> readPublisher() throws Exception{
          try{
             begin();
             Query q = getSession().createQuery("FROM Wydawnictwo where id = :wydawnictwoID");
-            q.setString("wydawnictwoID", Integer.toString(wydawnictwoID));
+            q.setParameter("wydawnictwoID", wydawnictwoID);
             Wydawnictwo wyd = (Wydawnictwo)q.uniqueResult();
             commit();
             return wyd;

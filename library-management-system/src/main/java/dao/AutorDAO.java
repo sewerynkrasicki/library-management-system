@@ -76,7 +76,7 @@ public List<Autor> readAuthor() throws Exception{
          try{
             begin();
             Query q = getSession().createQuery("FROM Autor where id = :authorID");
-            q.setString("authorID", Integer.toString(authorID));
+            q.setParameter("authorID", authorID);
             Autor autor = (Autor)q.uniqueResult();
             commit();
             return autor;

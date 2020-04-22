@@ -46,6 +46,11 @@ public class CategoryCreator extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        categoryTable = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            };
+        };
         categoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

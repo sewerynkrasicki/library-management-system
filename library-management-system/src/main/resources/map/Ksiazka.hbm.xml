@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <!--
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
@@ -39,18 +38,24 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=biblioteka</property>
-    <property name="hibernate.connection.username">sewSQL</property>
-    <property name="hibernate.connection.password">20sql$@19</property>
-    <property name="hbm2ddl.auto">update</property>
-    <mapping resource="map/Kategoria.hbm.xml"/>
-    <mapping resource="map/Autor.hbm.xml"/>
-    <mapping resource="map/Adres.hbm.xml"/>
-    <mapping resource="map/Wydawnictwo.hbm.xml"/>
-    <mapping resource="map/Rola.hbm.xml"/>
-    <mapping resource="map/Ksiazka.hbm.xml"/>
-  </session-factory>
-</hibernate-configuration>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "POJO.Ksiazka" table="Ksiazka">
+        <meta attribute = "class-description">Klasa zawiera informacje o ksiazkach</meta>
+        <id name="id" type="integer" column="id">
+            <generator class="native"/>
+        </id>
+        
+        <property name="tytuł" column="tytuł" type="string"/>
+        <property name="opis" column="opis" type="string"/>
+        <property name="rokWydania" column="rokWydania" type="integer"/>
+        <property name="cenaBiblioteki" column="cenaBiblioteki" type="double"/>
+        <many-to-one name="kategoria" class="POJO.Kategoria" column="kategoria_id" not-null="true"/>
+        <many-to-one name="wydawnictwo" class="POJO.Wydawnictwo" column="wydawnictwo_id" not-null="true"/>
+        <many-to-one name="autor" class="POJO.Autor" column="autor_id" not-null="true"/>
+    </class>
+</hibernate-mapping>

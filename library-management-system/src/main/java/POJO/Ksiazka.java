@@ -25,7 +25,7 @@ public class Ksiazka {
     @Column(nullable=false)
     private int rokWydania;
     @Column(nullable=false)
-    private float cenaBiblioteki;
+    private double cenaBiblioteki;
     @Column(nullable=false)
     @ManyToOne(targetEntity=Kategoria.class, optional=false)
     private Kategoria kategoria;
@@ -39,7 +39,7 @@ public class Ksiazka {
     public Ksiazka() {
     }
 
-    public Ksiazka(String tytuł, String opis, int rokWydania, float cenaBiblioteki, Kategoria kategoria, Autor autor, Wydawnictwo wydawnictwo) {
+    public Ksiazka(String tytuł, String opis, int rokWydania, double cenaBiblioteki, Kategoria kategoria, Autor autor, Wydawnictwo wydawnictwo) {
         this.tytuł = tytuł;
         this.opis = opis;
         this.rokWydania = rokWydania;
@@ -81,11 +81,11 @@ public class Ksiazka {
         this.rokWydania = rokWydania;
     }
 
-    public float getCenaBiblioteki() {
+    public double getCenaBiblioteki() {
         return cenaBiblioteki;
     }
 
-    public void setCenaBiblioteki(float cenaBiblioteki) {
+    public void setCenaBiblioteki(double cenaBiblioteki) {
         this.cenaBiblioteki = cenaBiblioteki;
     }
 
