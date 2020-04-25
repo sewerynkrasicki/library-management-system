@@ -98,6 +98,57 @@ public List<Czytelnik> readReader() throws Exception{
         }catch(HibernateException ex){
             rollback();
             throw new Exception("Nie moge znaleźć konkretnego czytelnika");
-        }	
-    }
+        }
+        }
+         
+        public Czytelnik getReaderByLogin(String login) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Czytelnik where login = :login");
+            q.setParameter("login", login);
+            Czytelnik czytelnik = (Czytelnik)q.uniqueResult();
+            commit();
+            return czytelnik;
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego czytelnika");
+        }
+        }
+        
+        public boolean readerExist(String login) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Czytelnik where login = :login");
+            q.setParameter("login", login);
+            Czytelnik czytelnik = (Czytelnik)q.uniqueResult();
+            commit();
+            if(czytelnik==null)
+            {
+                return false;
+            }else{
+                return true;
+            }
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego czytelnika");
+        }
+        }
+        public boolean emailExist(String email) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Czytelnik where email = :email");
+            q.setParameter("email", email);
+            Czytelnik czytelnik = (Czytelnik)q.uniqueResult();
+            commit();
+            if(czytelnik==null)
+            {
+                return false;
+            }else{
+                return true;
+            }
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego czytelnika");
+        }
+        }        
 }

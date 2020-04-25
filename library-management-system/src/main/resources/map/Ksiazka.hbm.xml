@@ -51,7 +51,7 @@ Contributor(s):
         </id>
         
         <property name="tytuł" column="tytuł" type="string"/>
-        <property name="opis" column="opis" type="string"/>
+        <property name="opis" column="opis" type="text"/>
         <property name="rokWydania" column="rokWydania" type="integer"/>
         <property name="cenaBiblioteki" column="cenaBiblioteki" type="double"/>
         <many-to-one name="kategoria" class="POJO.Kategoria" column="kategoria_id" not-null="true"/>

@@ -88,7 +88,7 @@ public List<Bibliotekarz> readLibrarian() throws Exception{
         }	
     }
     
-        public Bibliotekarz getBibliotekarz(int bibliotekarzID) throws Exception{
+        public Bibliotekarz getLibrarian(int bibliotekarzID) throws Exception{
          try{
             begin();
             Query q = getSession().createQuery("FROM Bibliotekarz where id = :bibliotekarzID");
