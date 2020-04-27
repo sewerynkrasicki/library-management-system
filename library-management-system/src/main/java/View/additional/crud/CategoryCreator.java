@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view.crud;
+package view.additional.crud;
 import POJO.Kategoria;
 import dao.KategoriaDAO;
 import java.util.ArrayList;

@@ -1,5 +1,11 @@
 package view;
 
+import dao.BibliotekarzDAO;
+import dao.CzytelnikDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -118,6 +124,7 @@ public class LoginForm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
@@ -125,7 +132,29 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_loginActionPerformed
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            String log = login.getText();
+            String pass = new String(password.getPassword());
+            if((log.isEmpty() || password.getPassword().length == 0))
+            {
+                JOptionPane.showMessageDialog(this, "Login i hasło nie mogą być puste!", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+            else if(userTypeBox.getSelectedIndex() == 0)
+            {
+                CzytelnikDAO czytd = new CzytelnikDAO();
+                BibliotekarzDAO bibld = new BibliotekarzDAO();
+                if(czytd.readerExist(log) && czytd.getReaderByLogin(log).getHaslo().equals(pass))
+                {
+                    System.out.println("Success");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Błędny login bądź hasło!", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_submitActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
