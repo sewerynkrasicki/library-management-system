@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author 35747
  */
-public class DataTableModels {
+public class DataTableController {
         public DefaultTableModel dtmBooks(){
             DefaultTableModel tab = null;
             try {
@@ -34,7 +34,7 @@ public class DataTableModels {
                     tab.addRow(row);
                 }
             } catch (Exception ex) {
-                Logger.getLogger(DataTableModels.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataTableController.class.getName()).log(Level.SEVERE, null, ex);
             }
             return tab;
     }    
@@ -50,7 +50,7 @@ public class DataTableModels {
                     tab.addRow(row);
                 }
             } catch (Exception ex) {
-                Logger.getLogger(DataTableModels.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataTableController.class.getName()).log(Level.SEVERE, null, ex);
             }
             return tab;
     }    
@@ -66,7 +66,7 @@ public class DataTableModels {
                     tab.addRow(row);
                 }
             } catch (Exception ex) {
-                Logger.getLogger(DataTableModels.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataTableController.class.getName()).log(Level.SEVERE, null, ex);
             }
             return tab;
     }    
@@ -82,7 +82,7 @@ public class DataTableModels {
                     tab.addRow(row);
                 }
             } catch (Exception ex) {
-                Logger.getLogger(DataTableModels.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataTableController.class.getName()).log(Level.SEVERE, null, ex);
             }
             return tab;
     }    

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package view.additional;
-import controllers.DataTableModels;
+import controllers.DataTableController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +20,7 @@ public class ShowBooks extends javax.swing.JFrame {
     public ShowBooks() {
         try {
             initComponents();
-            DataTableModels bdtm = new DataTableModels();
+            DataTableController bdtm = new DataTableController();
             showBookTable.setModel(bdtm.dtmBooks());
         } catch (Exception ex) {
             Logger.getLogger(ShowBooks.class.getName()).log(Level.SEVERE, null, ex);
