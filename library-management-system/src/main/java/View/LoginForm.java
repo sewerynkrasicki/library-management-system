@@ -1,5 +1,7 @@
 package view;
 
+import controllers.LibrarianLoginController;
+import controllers.UserLoginController;
 import dao.BibliotekarzDAO;
 import dao.CzytelnikDAO;
 import java.util.logging.Level;
@@ -133,23 +135,15 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         try {
-            // TODO add your handling code here:
-            String log = login.getText();
-            String pass = new String(password.getPassword());
-            if((log.isEmpty() || password.getPassword().length == 0))
-            {
-                JOptionPane.showMessageDialog(this, "Login i hasło nie mogą być puste!", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if(userTypeBox.getSelectedIndex() == 0)
-            {
-                CzytelnikDAO czytd = new CzytelnikDAO();
-                BibliotekarzDAO bibld = new BibliotekarzDAO();
-                if(czytd.readerExist(log) && czytd.getReaderByLogin(log).getHaslo().equals(pass))
-                {
-                    System.out.println("Success");
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "Błędny login bądź hasło!", "ERROR", JOptionPane.WARNING_MESSAGE);
+            UserLoginController ulc = new UserLoginController(login, password);
+            LibrarianLoginController llc = new LibrarianLoginController(login, password); 
+            if(ulc.emptyFields()){
+                JOptionPane.showMessageDialog(this, "Pola nie mogą być puste!", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                if(ulc.personExist() && llc.personExist()){
+                    System.out.println("lol");
+                }else{
+                    JOptionPane.showMessageDialog(this, "Nikt o podanym loginie nie istnieje!", "ERROR", JOptionPane.WARNING_MESSAGE);
                 }
             }
         } catch (Exception ex) {

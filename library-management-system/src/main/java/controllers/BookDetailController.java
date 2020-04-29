@@ -16,8 +16,8 @@ import javax.swing.JTextArea;
  * @author 35747
  */
 public class BookDetailController {
-    KsiazkaDAO ksiazka = new KsiazkaDAO();
-    String tytul;
+    private KsiazkaDAO ksiazka = new KsiazkaDAO();
+    private String tytul;
     
     public BookDetailController(String tytul)
     {

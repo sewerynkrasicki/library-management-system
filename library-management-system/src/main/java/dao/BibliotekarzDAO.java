@@ -101,4 +101,37 @@ public List<Bibliotekarz> readLibrarian() throws Exception{
             throw new Exception("Nie moge znaleźć konkretnego bibliotekarza");
         }	
     }
+        
+        public boolean librarianExist(String login) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Bibliotekarz where login = :login");
+            q.setParameter("login", login);
+            Bibliotekarz bibliotekarz = (Bibliotekarz)q.uniqueResult();
+            commit();
+            if(bibliotekarz==null)
+            {
+                return false;
+            }else{
+                return true;
+            }
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego bibliotekarza");
+        }
+        }
+        
+        public Bibliotekarz getLibrarianByLogin(String login) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Bibliotekarz where login = :login");
+            q.setParameter("login", login);
+            Bibliotekarz bibliotekarz = (Bibliotekarz)q.uniqueResult();
+            commit();
+            return bibliotekarz;
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego bibliotekarza");
+        }
+        }        
 }
