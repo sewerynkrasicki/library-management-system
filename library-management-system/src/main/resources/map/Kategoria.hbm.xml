@@ -50,6 +50,6 @@ Contributor(s):
             <generator class="native"/>
         </id>
         
-        <property name="nazwa" column="nazwa" type="string"/>
+        <property name="nazwa" column="nazwa" type="string" not-null="true" length="50"/>
     </class>
 </hibernate-mapping>

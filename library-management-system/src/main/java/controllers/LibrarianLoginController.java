@@ -7,6 +7,7 @@ package controllers;
 
 import POJO.Bibliotekarz;
 import dao.BibliotekarzDAO;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -45,11 +46,12 @@ public class LibrarianLoginController implements ILoginInterface{
         }
     }
     
-    public void login() throws Exception{
+    public void login(JFrame f) throws Exception{
         if(biblid.getLibrarianByLogin(login).getRola().getUserType().equals("librarian")){
             if(biblid.getLibrarianByLogin(login).getHaslo().equals(password)){
                 bibliotekarz = biblid.getLibrarianByLogin(login);
                 AdminFrame af = new AdminFrame();
+                f.dispose();
                 af.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Błędny login bądź hasło", "ERROR", JOptionPane.WARNING_MESSAGE);
@@ -59,11 +61,12 @@ public class LibrarianLoginController implements ILoginInterface{
         }
     }
     
-    public void adminLogin() throws Exception{
+    public void adminLogin(JFrame f) throws Exception{
         if(biblid.getLibrarianByLogin(login).getRola().getUserType().equals("admin")){
             if(biblid.getLibrarianByLogin(login).getHaslo().equals(password)){
                 bibliotekarz = biblid.getLibrarianByLogin(login);
                 AdminFrame af = new AdminFrame();
+                f.dispose();
                 af.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Błędny login bądź hasło", "ERROR", JOptionPane.WARNING_MESSAGE);

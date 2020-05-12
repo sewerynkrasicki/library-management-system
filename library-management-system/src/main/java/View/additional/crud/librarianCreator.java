@@ -21,12 +21,12 @@ import org.hibernate.cfg.Configuration;
  *
  * @author 35747
  */
-public class librarianCreator extends javax.swing.JFrame {
+public class LibrarianCreator extends javax.swing.JFrame {
 
     /**
      * Creates new form categoryCreator
      */
-    public librarianCreator() {
+    public LibrarianCreator() {
         initComponents();
     }
 
@@ -72,7 +72,8 @@ public class librarianCreator extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Zarządzanie bibliotekarzami");
 
         readerTable = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -255,6 +256,7 @@ public class librarianCreator extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addLibrarianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLibrarianActionPerformed
@@ -272,7 +274,7 @@ public class librarianCreator extends javax.swing.JFrame {
                  readerTable.setModel(dtm(bibld.readLibrarian()));
             }
         } catch (Exception ex) {
-            Logger.getLogger(librarianCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LibrarianCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addLibrarianActionPerformed
 
@@ -296,7 +298,7 @@ public class librarianCreator extends javax.swing.JFrame {
                 readerTable.setModel(dtm(bibld.readLibrarian()));
             }
         } catch (Exception ex) {
-            Logger.getLogger(librarianCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LibrarianCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordLibrarianActionPerformed
 
@@ -314,7 +316,7 @@ public class librarianCreator extends javax.swing.JFrame {
                 readerTable.setModel(dtm(bibld.readLibrarian()));
             }
         } catch (Exception ex) {
-            Logger.getLogger(librarianCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LibrarianCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deleteLibrarianActionPerformed
 
@@ -324,7 +326,7 @@ public class librarianCreator extends javax.swing.JFrame {
             BibliotekarzDAO bibld = new BibliotekarzDAO();
             readerTable.setModel(dtm(bibld.readLibrarian()));
         } catch (Exception ex) {
-            Logger.getLogger(librarianCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LibrarianCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readLibrarianActionPerformed
 
@@ -388,14 +390,142 @@ public class librarianCreator extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(librarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(librarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(librarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(librarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibrarianCreator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -528,7 +658,7 @@ public class librarianCreator extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new librarianCreator().setVisible(true);
+                new LibrarianCreator().setVisible(true);
             }
         });
     }

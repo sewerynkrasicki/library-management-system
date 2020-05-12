@@ -2,8 +2,6 @@ package view;
 
 import controllers.LibrarianLoginController;
 import controllers.UserLoginController;
-import dao.BibliotekarzDAO;
-import dao.CzytelnikDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -140,9 +138,28 @@ public class LoginForm extends javax.swing.JFrame {
             if(ulc.emptyFields()){
                 JOptionPane.showMessageDialog(this, "Pola nie mogą być puste!", "ERROR", JOptionPane.WARNING_MESSAGE);
             }else{
-                if(ulc.personExist() && llc.personExist()){
-                    System.out.println("lol");
-                }else{
+                if(ulc.personExist()){
+                    if(userTypeBox.getSelectedIndex()==0){
+                        ulc.login(this);
+                    }else if(userTypeBox.getSelectedIndex()==1 || userTypeBox.getSelectedIndex()==2){
+                        JOptionPane.showMessageDialog(this, "Nie masz uprawnień!", "ERROR", JOptionPane.WARNING_MESSAGE);
+                    }
+                }else if(llc.personExist()){
+                    switch (userTypeBox.getSelectedIndex()) {
+                        case 0:
+                            JOptionPane.showMessageDialog(this, "Nie jesteś użytkownikiem!", "ERROR", JOptionPane.WARNING_MESSAGE);
+                            break;
+                        case 1:
+                            llc.login(this);
+                            break;
+                        case 2:
+                            llc.adminLogin(this);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else{
                     JOptionPane.showMessageDialog(this, "Nikt o podanym loginie nie istnieje!", "ERROR", JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -152,7 +169,7 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_submitActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        // TODO add your handling code here:
+
         NewAccount na = new NewAccount();
         this.dispose();
         na.setVisible(true);

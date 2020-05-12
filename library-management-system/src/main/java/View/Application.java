@@ -5,11 +5,13 @@
  */
 package view;
 
+import POJO.Czytelnik;
 import controllers.BookDetailController;
+import controllers.DataTableController;
+import controllers.LendController;
+import controllers.ReturnLendController;
+import controllers.SearchByController;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import view.additional.ShowAuthors;
 import view.additional.ShowBooks;
 import view.additional.ShowCategories;
@@ -20,11 +22,12 @@ import view.additional.ShowPublishers;
  * @author 35747
  */
 public class Application extends javax.swing.JFrame {
-
+    private Czytelnik czytelnik;
     /**
      * Creates new form Application
      */
-    public Application() {
+    public Application(Czytelnik czytelnik) {
+        this.czytelnik = czytelnik;
         initComponents();
     }
 
@@ -40,23 +43,23 @@ public class Application extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        searchTable = new javax.swing.JTable();
+        titleField = new javax.swing.JTextField();
+        categoryField = new javax.swing.JTextField();
+        authorField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        titleSearchButton = new javax.swing.JButton();
+        authorSearchButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton8 = new javax.swing.JButton();
+        categorySearchButton = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        publisherField = new javax.swing.JTextField();
+        publisherSearchButton = new javax.swing.JButton();
+        lendButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         searchField = new javax.swing.JTextField();
         titleLabel = new javax.swing.JLabel();
@@ -68,9 +71,9 @@ public class Application extends javax.swing.JFrame {
         detailSearch = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        lendTable = new javax.swing.JTable();
+        returnButton = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
         readBooks = new javax.swing.JButton();
         readPublishers = new javax.swing.JButton();
         readAuthors = new javax.swing.JButton();
@@ -83,7 +86,7 @@ public class Application extends javax.swing.JFrame {
         setTitle("Library");
         setResizable(false);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        searchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -91,13 +94,13 @@ public class Application extends javax.swing.JFrame {
                 "Tytuł", "Autor", "Kategoria", "Wydawnictwo", "Stan"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(searchTable);
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        titleField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        categoryField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        authorField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Tytuł");
@@ -108,20 +111,45 @@ public class Application extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Autor");
 
-        jButton6.setText("Szukaj");
+        titleSearchButton.setText("Szukaj");
+        titleSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                titleSearchButtonActionPerformed(evt);
+            }
+        });
 
-        jButton7.setText("Szukaj");
+        authorSearchButton.setText("Szukaj");
+        authorSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                authorSearchButtonActionPerformed(evt);
+            }
+        });
 
-        jButton8.setText("Szukaj");
+        categorySearchButton.setText("Szukaj");
+        categorySearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categorySearchButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Wydawnictwo");
 
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        publisherField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jButton9.setText("Szukaj");
+        publisherSearchButton.setText("Szukaj");
+        publisherSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                publisherSearchButtonActionPerformed(evt);
+            }
+        });
 
-        jButton10.setText("Wypożycz");
+        lendButton.setText("Wypożycz");
+        lendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lendButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,23 +161,23 @@ public class Application extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton9)
+                            .addComponent(publisherSearchButton)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextField4)
+                                .addComponent(publisherField)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(titleField, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addComponent(jButton6)
+                                .addComponent(authorField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                .addComponent(categoryField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                .addComponent(titleSearchButton)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton7)
+                                .addComponent(authorSearchButton)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton8)
+                                .addComponent(categorySearchButton)
                                 .addComponent(jSeparator3)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2)))
@@ -163,38 +191,38 @@ public class Application extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(titleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
+                        .addComponent(titleSearchButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(authorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
+                        .addComponent(authorSearchButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(categoryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)
+                        .addComponent(categorySearchButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(publisherField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9))
+                        .addComponent(publisherSearchButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -216,8 +244,10 @@ public class Application extends javax.swing.JFrame {
 
         descriptionArea.setColumns(20);
         descriptionArea.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        descriptionArea.setLineWrap(true);
         descriptionArea.setRows(5);
         descriptionArea.setText("Opis");
+        descriptionArea.setWrapStyleWord(true);
         descriptionArea.setEnabled(false);
         jScrollPane3.setViewportView(descriptionArea);
 
@@ -270,7 +300,7 @@ public class Application extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Szczegóły", jPanel3);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        lendTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -278,11 +308,21 @@ public class Application extends javax.swing.JFrame {
                 "Tytuł", "Autor", "Kategoria", "Data_wypożyczenia", "Data_oddania", "Kara"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(lendTable);
 
-        jButton3.setText("Oddaj");
+        returnButton.setText("Oddaj");
+        returnButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnButtonActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Odśwież");
+        refreshButton.setText("Odśwież");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -293,9 +333,9 @@ public class Application extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -305,8 +345,8 @@ public class Application extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -422,6 +462,64 @@ public class Application extends javax.swing.JFrame {
         bdc.setDescriptionText(descriptionArea);
     }//GEN-LAST:event_detailSearchActionPerformed
 
+    private void titleSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleSearchButtonActionPerformed
+        SearchByController sbc = new SearchByController();
+        searchTable.setModel(sbc.searchByTitle(titleField));
+        setSearchTableWidth();
+    }//GEN-LAST:event_titleSearchButtonActionPerformed
+
+    private void authorSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorSearchButtonActionPerformed
+        SearchByController sbc = new SearchByController();
+        searchTable.setModel(sbc.searchByAuthor(authorField));
+        setSearchTableWidth();
+    }//GEN-LAST:event_authorSearchButtonActionPerformed
+
+    private void categorySearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categorySearchButtonActionPerformed
+        SearchByController sbc = new SearchByController();
+        searchTable.setModel(sbc.searchByCategory(categoryField));
+        setSearchTableWidth();
+    }//GEN-LAST:event_categorySearchButtonActionPerformed
+
+    private void publisherSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherSearchButtonActionPerformed
+        SearchByController sbc = new SearchByController();
+        searchTable.setModel(sbc.searchByPublisher(publisherField));
+        setSearchTableWidth();
+    }//GEN-LAST:event_publisherSearchButtonActionPerformed
+
+    private void returnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnButtonActionPerformed
+        ReturnLendController rlc = new ReturnLendController();
+        DataTableController dtc = new DataTableController();
+        rlc.returnLendActionPerformed(lendTable);
+        lendTable.setModel(dtc.dtmLend(czytelnik.getId()));
+        setLendTableWidth();
+    }//GEN-LAST:event_returnButtonActionPerformed
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        DataTableController dtc = new DataTableController();
+        lendTable.setModel(dtc.dtmLend(czytelnik.getId()));
+        setLendTableWidth();
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
+    public void setLendTableWidth(){
+        lendTable.getColumnModel().getColumn(0).setMinWidth(0);
+        lendTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        lendTable.getColumnModel().getColumn(0).setWidth(0);      
+    }
+    
+    public void setSearchTableWidth(){
+        searchTable.getColumnModel().getColumn(0).setMinWidth(0);
+        searchTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        searchTable.getColumnModel().getColumn(0).setWidth(0);
+    }
+    
+    private void lendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lendButtonActionPerformed
+        LendController lc = new LendController();
+        DataTableController dtc = new DataTableController();
+        lc.lendActionPerformed(searchTable, czytelnik);
+        searchTable.setModel(dtc.searchTableModel());
+        setSearchTableWidth();
+    }//GEN-LAST:event_lendButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -450,26 +548,24 @@ public class Application extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        /*
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Application().setVisible(true);
             }
         });
+        */
     }
-    
-
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField authorField;
     private javax.swing.JLabel authorLabel;
+    private javax.swing.JButton authorSearchButton;
+    private javax.swing.JTextField categoryField;
     private javax.swing.JLabel categoryLabel;
+    private javax.swing.JButton categorySearchButton;
     private javax.swing.JTextArea descriptionArea;
     private javax.swing.JButton detailSearch;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -487,18 +583,21 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton lendButton;
+    private javax.swing.JTable lendTable;
+    private javax.swing.JTextField publisherField;
     private javax.swing.JLabel publisherLabel;
+    private javax.swing.JButton publisherSearchButton;
     private javax.swing.JButton readAuthors;
     private javax.swing.JButton readBooks;
     private javax.swing.JButton readCategories;
     private javax.swing.JButton readPublishers;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JButton returnButton;
     private javax.swing.JTextField searchField;
+    private javax.swing.JTable searchTable;
+    private javax.swing.JTextField titleField;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JButton titleSearchButton;
     // End of variables declaration//GEN-END:variables
 }

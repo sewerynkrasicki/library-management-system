@@ -44,18 +44,13 @@ Contributor(s):
   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name = "POJO.Bibliotekarz" table="Bibliotekarz">
-        <meta attribute = "class-description">Klasa zawiera informacje o bibliotekarzach</meta>
+    <class name = "POJO.Egzemplarz" table="Egzemplarz">
+        <meta attribute = "class-description">Klasa zawiera informacje o egzemplarzach</meta>
         <id name="id" type="integer" column="id">
             <generator class="native"/>
         </id>
-        
-        <property name="imie" column="imie" type="string" not-null="true" length="30"/>
-        <property name="nazwisko" column="nazwisko" type="string" not-null="true" length="30"/>
-        <property name="login" column="login" type="string" not-null="true" length="30"/>
-        <property name="haslo" column="haslo" type="string" not-null="true" length="30"/>
-        <property name="email" column="email" type="string" not-null="true" length="255"/>
-        <many-to-one name="adres" class="POJO.Adres" column="adres_id" not-null="true"/>
-        <many-to-one name="rola" class="POJO.Rola" column="rola_id" not-null="true"/>
+        <property name="stan" column="stan" type="integer" not-null="true"/>
+        <property name="dostepna" column="dostepna" type="boolean" not-null="true"/>
+        <many-to-one name="ksiazka" class="POJO.Ksiazka" column="ksiazka_id" not-null="true"/>
     </class>
 </hibernate-mapping>

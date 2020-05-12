@@ -104,4 +104,18 @@ public List<Ksiazka> readBook() throws Exception{
             throw new Exception("Nie moge znaleźć konkretnej ksiazki");
         }	
     }
+        
+        public Ksiazka getBookById(int name) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Ksiazka where id = :name");
+            q.setParameter("name", name);
+            Ksiazka book = (Ksiazka)q.uniqueResult();
+            commit();
+            return book;
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnej ksiazki");
+        }	
+    }        
 }

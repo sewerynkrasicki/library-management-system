@@ -7,6 +7,7 @@ package controllers;
 
 import POJO.Czytelnik;
 import dao.CzytelnikDAO;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -45,11 +46,12 @@ public class UserLoginController implements ILoginInterface {
         }
     }
     
-    public void login() throws Exception{
+    public void login(JFrame f) throws Exception{
         if(czytd.getReaderByLogin(login).getRola().getUserType().equals("user")){
             if(czytd.getReaderByLogin(login).getHaslo().equals(password)){
                 czytelnik = czytd.getReaderByLogin(login);
-                Application app = new Application();
+                Application app = new Application(czytelnik);
+                f.dispose();
                 app.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Błędny login bądź hasło", "ERROR", JOptionPane.WARNING_MESSAGE);

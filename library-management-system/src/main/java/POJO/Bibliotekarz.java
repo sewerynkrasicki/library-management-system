@@ -17,23 +17,23 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Bibliotekarz {
     @Id
-    int id;
+    private int id;
     @Column(nullable=false)
-    String imie;
+    private String imie;
     @Column(nullable=false)
-    String nazwisko;
+    private String nazwisko;
     @Column(nullable=false)
-    String login;
+    private String login;
     @Column(nullable=false)
-    String haslo;
+    private String haslo;
     @Column(nullable=false)
-    String email;
+    private String email;
     @Column(nullable=false)
     @ManyToOne(targetEntity=Adres.class, optional=false)
-    Adres adres;
+    private Adres adres;
     @Column(nullable=false)
     @ManyToOne(targetEntity=Rola.class, optional=false)
-    Rola rola;
+    private Rola rola;
 
     public Bibliotekarz() {
     }

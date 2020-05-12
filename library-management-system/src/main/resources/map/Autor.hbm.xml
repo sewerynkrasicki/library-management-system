@@ -50,9 +50,9 @@ Contributor(s):
             <generator class="native"/>
         </id>
         
-        <property name="imie" column="imie" type="string"/>
-        <property name="nazwisko" column="nazwisko" type="string"/>
-        <property name="miejsceUrodzenia" column="miejsceUrodzenia" type="string"/>
-        <property name="wiekDzialania" column="wiekDzialania" type="string"/>
+        <property name="imie" column="imie" type="string" not-null="true" length="30"/>
+        <property name="nazwisko" column="nazwisko" type="string" not-null="true" length="30"/>
+        <property name="miejsceUrodzenia" column="miejsceUrodzenia" type="string" not-null="true" length="30"/>
+        <property name="wiekDzialania" column="wiekDzialania" type="string" not-null="true" length="6"/>
     </class>
 </hibernate-mapping>

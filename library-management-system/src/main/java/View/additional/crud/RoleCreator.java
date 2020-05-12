@@ -44,7 +44,8 @@ public class RoleCreator extends javax.swing.JFrame {
         nameField = new javax.swing.JTextField();
         readRole = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Zarządzanie rolami");
 
         roleTable = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -159,6 +160,7 @@ public class RoleCreator extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoleActionPerformed

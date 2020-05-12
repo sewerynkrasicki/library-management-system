@@ -7,7 +7,6 @@ package dao;
 
 import POJO.Adres;
 import POJO.Bibliotekarz;
-import POJO.Czytelnik;
 import POJO.Rola;
 import static dao.DAO.getSession;
 import java.util.List;

@@ -55,5 +55,7 @@ Contributor(s):
     <mapping resource="map/Ksiazka.hbm.xml"/>
     <mapping resource="map/Czytelnik.hbm.xml"/>
     <mapping resource="map/Bibliotekarz.hbm.xml"/>
+    <mapping resource="map/Egzemplarz.hbm.xml"/>
+    <mapping resource="map/Wypozyczenia.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

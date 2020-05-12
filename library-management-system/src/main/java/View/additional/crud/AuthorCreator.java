@@ -50,7 +50,8 @@ public class AuthorCreator extends javax.swing.JFrame {
         centuryField = new javax.swing.JTextField();
         secondNameField = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Zarządzanie autorami");
 
         authorTable = new javax.swing.JTable()
         {
@@ -215,6 +216,7 @@ public class AuthorCreator extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAuthorActionPerformed

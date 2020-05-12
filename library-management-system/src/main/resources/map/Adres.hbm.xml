@@ -50,9 +50,9 @@ Contributor(s):
             <generator class="native"/>
         </id>
         
-        <property name="miasto" column="miasto" type="string"/>
-        <property name="ulica" column="ulica" type="string"/>
-        <property name="kodPocztowy" column="kodPocztowy" type="string"/>
-        <property name="numerDomu" column="numerDomu" type="string"/>
+        <property name="miasto" column="miasto" type="string" not-null="true" length="30"/>
+        <property name="ulica" column="ulica" type="string" not-null="true" length="30"/>
+        <property name="kodPocztowy" column="kodPocztowy" type="string" not-null="true" length="6"/>
+        <property name="numerDomu" column="numerDomu" type="string" not-null="true" length="4"/>
     </class>
 </hibernate-mapping>

@@ -5,12 +5,9 @@
  */
 package view;
 
-import dao.AdresDAO;
-import dao.CzytelnikDAO;
+import controllers.NewAccountController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -135,7 +132,6 @@ public class NewAccount extends javax.swing.JFrame {
                             .addComponent(streetLabel))
                         .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(streetField)
                             .addComponent(cityField, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -144,7 +140,8 @@ public class NewAccount extends javax.swing.JFrame {
                                     .addComponent(fNameField)
                                     .addComponent(sNameField)
                                     .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(streetField)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(postalCodeLabel)
@@ -160,42 +157,41 @@ public class NewAccount extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(loginField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginLabel))
-                        .addGap(18, 18, 18)
-                        .addComponent(passwordLabel))
+                    .addComponent(loginField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loginLabel))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordLabel)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameLabel)
                     .addComponent(fNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(secondNameLabel)
                     .addComponent(sNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailLabel)
                     .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cityLabel)
                     .addComponent(cityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(streetLabel)
                     .addComponent(streetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(postalCodeLabel)
                     .addComponent(postalCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(houseNumberLabel)
                     .addComponent(houseNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -205,62 +201,24 @@ public class NewAccount extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+
         try {
-            CzytelnikDAO czytd = new CzytelnikDAO();
+            String login = loginField.getText();
+            String password = new String(passwordField.getPassword());
+            String fName = fNameField.getText();
+            String sName = sNameField.getText();
+            String email = emailField.getText();
+            String city = cityField.getText();
+            String street = streetField.getText();
+            String postal = postalCodeField.getText();
+            String nr = houseNumberField.getText();
             
-            if((loginField.getText().isEmpty() || passwordField.getPassword().length == 0 || fNameField.getText().isEmpty()
-                    || sNameField.getText().isEmpty() || emailField.getText().isEmpty() || cityField.getText().isEmpty()
-                    || streetField.getText().isEmpty() || postalCodeField.getText().isEmpty() || houseNumberField.getText().isEmpty())){
-                JOptionPane.showMessageDialog(this, "Wszystkie pola muszą zostać uzupełnione!", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if((loginField.getText().length() > 30 || loginField.getText().length() < 8 || passwordField.getPassword().length > 30 || passwordField.getPassword().length < 8)){
-                JOptionPane.showMessageDialog(this, "Login i hasło powinny mieć od 8 do 30 znaków !!!", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if((fNameField.getText().length() > 255 || sNameField.getText().length() > 255 || cityField.getText().length() > 255 || streetField.getText().length() > 255  || !Pattern.matches("[a-zA-Z]*", fNameField.getText())
-                    || !Pattern.matches("[a-zA-Z]*", sNameField.getText()) || !Pattern.matches("[a-zA-Z]*", cityField.getText()) || !Pattern.matches("[a-zA-Z]*", streetField.getText())))
-            {
-                JOptionPane.showMessageDialog(this, "Imie, nazwisko, miasto oraz ulica powinny zawierać do 255 liter!!", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if(!Pattern.matches("[0-9][0-9]-[0-9][0-9][0-9]", postalCodeField.getText()))
-            {
-                JOptionPane.showMessageDialog(this, "Kod pocztowy powinien składać się z dwóch cyfr, myślnika i trzech cyfr. Przykład: 14-500", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if((!Pattern.matches("[a-zA-Z0-9]+",  houseNumberField.getText()) ||  houseNumberField.getText().length() > 4))
-            {
-                JOptionPane.showMessageDialog(this, "Numer domów nie powinen zawierać więcej niż 4 znaki - tylko litery oraz cyfry.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if((!Pattern.matches("([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",  emailField.getText()) || emailField.getText().length() > 255))
-            {
-                JOptionPane.showMessageDialog(this, "Email powinen być w dobrej formie i mieć nie więcej niż 255 znaków.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if(czytd.readerExist(loginField.getText())){
-                JOptionPane.showMessageDialog(this, "Użytkownik o takim loginie już istnieje w bazie!", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else if(czytd.emailExist(emailField.getText())){
-                JOptionPane.showMessageDialog(this, "Email zajęty.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }
-            else{
-                AdresDAO adrd = new AdresDAO();
-                String login = loginField.getText();
-                String password = new String(passwordField.getPassword());
-                String fName = fNameField.getText();
-                String sName = sNameField.getText();
-                String email = emailField.getText();
-                String city = cityField.getText();
-                String street = streetField.getText();
-                String postal = postalCodeField.getText();
-                String nr = houseNumberField.getText();
-                
-                int adr = adrd.createAddress(city, street, postal, nr).getId();
-                String welcome = czytd.createReader(fName, sName, login, password, email, adr, 1).getImie();
-                this.dispose();
-                LoginForm lf = new LoginForm();
-                lf.setVisible(true);
-                JOptionPane.showMessageDialog(lf, welcome+" zostałeś pomyślnie zarejestrowany!", "Witaj!", JOptionPane.INFORMATION_MESSAGE);
-            }
+            NewAccountController nac = new NewAccountController();
+            nac.createAccount(this, login, password, fName, sName, email, city, street, postal, nr);
         } catch (Exception ex) {
             Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
+                
     }//GEN-LAST:event_registerButtonActionPerformed
 
     /**

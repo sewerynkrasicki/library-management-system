@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author 35747
@@ -12,5 +14,5 @@ package controllers;
 public interface ILoginInterface {
     public Boolean personExist() throws Exception;
     public Boolean emptyFields();
-    public void login() throws Exception;
+    public void login(JFrame f) throws Exception;
 }

@@ -50,10 +50,10 @@ Contributor(s):
             <generator class="native"/>
         </id>
         
-        <property name="tytuł" column="tytuł" type="string"/>
-        <property name="opis" column="opis" type="text"/>
-        <property name="rokWydania" column="rokWydania" type="integer"/>
-        <property name="cenaBiblioteki" column="cenaBiblioteki" type="double"/>
+        <property name="tytuł" column="tytuł" type="string" not-null="true" length="50"/>
+        <property name="opis" column="opis" type="text" not-null="true"/>
+        <property name="rokWydania" column="rokWydania" type="integer" not-null="true"/>
+        <property name="cenaBiblioteki" column="cenaBiblioteki" type="double" not-null="true"/>
         <many-to-one name="kategoria" class="POJO.Kategoria" column="kategoria_id" not-null="true"/>
         <many-to-one name="wydawnictwo" class="POJO.Wydawnictwo" column="wydawnictwo_id" not-null="true"/>
         <many-to-one name="autor" class="POJO.Autor" column="autor_id" not-null="true"/>

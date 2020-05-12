@@ -1,5 +1,14 @@
 package view;
 
+import view.additional.crud.AddressCreator;
+import view.additional.crud.AuthorCreator;
+import view.additional.crud.BookCreator;
+import view.additional.crud.CategoryCreator;
+import view.additional.crud.LibrarianCreator;
+import view.additional.crud.PublisherCreator;
+import view.additional.crud.ReaderCreator;
+import view.additional.crud.RoleCreator;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,8 +41,20 @@ public class AdminFrame extends javax.swing.JFrame {
         bookButton = new javax.swing.JButton();
         categoryButton = new javax.swing.JButton();
         addressButton = new javax.swing.JButton();
-        authorButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        authorButton = new javax.swing.JButton();
+        headerLabel = new javax.swing.JLabel();
+        bookLabel = new javax.swing.JLabel();
+        categoryLabel = new javax.swing.JLabel();
+        authorLabel = new javax.swing.JLabel();
+        addressLabel = new javax.swing.JLabel();
+        readerButton = new javax.swing.JButton();
+        readerLabel = new javax.swing.JLabel();
+        librarianButton = new javax.swing.JButton();
+        librarianLabel = new javax.swing.JLabel();
+        roleButton = new javax.swing.JButton();
+        roleLabel = new javax.swing.JLabel();
+        publisherButton = new javax.swing.JButton();
+        publisherLabel = new javax.swing.JLabel();
 
         addBook7.setText("jButton1");
         addBook7.setMaximumSize(new java.awt.Dimension(128, 128));
@@ -48,6 +69,11 @@ public class AdminFrame extends javax.swing.JFrame {
         bookButton.setMaximumSize(new java.awt.Dimension(128, 128));
         bookButton.setMinimumSize(new java.awt.Dimension(128, 128));
         bookButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        bookButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bookButtonActionPerformed(evt);
+            }
+        });
 
         categoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/create.png"))); // NOI18N
         categoryButton.setMaximumSize(new java.awt.Dimension(128, 128));
@@ -63,15 +89,81 @@ public class AdminFrame extends javax.swing.JFrame {
         addressButton.setMaximumSize(new java.awt.Dimension(64, 64));
         addressButton.setMinimumSize(new java.awt.Dimension(64, 64));
         addressButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        addressButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressButtonActionPerformed(evt);
+            }
+        });
 
-        authorButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/author.png"))); // NOI18N
-        authorButton1.setMaximumSize(new java.awt.Dimension(64, 64));
-        authorButton1.setMinimumSize(new java.awt.Dimension(64, 64));
-        authorButton1.setPreferredSize(new java.awt.Dimension(64, 64));
+        authorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/author.png"))); // NOI18N
+        authorButton.setMaximumSize(new java.awt.Dimension(64, 64));
+        authorButton.setMinimumSize(new java.awt.Dimension(64, 64));
+        authorButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        authorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                authorButtonActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Panel Zarządzania");
+        headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        headerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headerLabel.setText("Panel Zarządzania");
+
+        bookLabel.setText("Książka");
+
+        categoryLabel.setText("Kategoria");
+
+        authorLabel.setText("Autor");
+
+        addressLabel.setText("Adres");
+
+        readerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/living.png"))); // NOI18N
+        readerButton.setMaximumSize(new java.awt.Dimension(64, 64));
+        readerButton.setMinimumSize(new java.awt.Dimension(64, 64));
+        readerButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        readerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readerButtonActionPerformed(evt);
+            }
+        });
+
+        readerLabel.setText("Czytelnik");
+
+        librarianButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/living.png"))); // NOI18N
+        librarianButton.setMaximumSize(new java.awt.Dimension(64, 64));
+        librarianButton.setMinimumSize(new java.awt.Dimension(64, 64));
+        librarianButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        librarianButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                librarianButtonActionPerformed(evt);
+            }
+        });
+
+        librarianLabel.setText("Bibliotekarz");
+
+        roleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/living.png"))); // NOI18N
+        roleButton.setMaximumSize(new java.awt.Dimension(64, 64));
+        roleButton.setMinimumSize(new java.awt.Dimension(64, 64));
+        roleButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        roleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleButtonActionPerformed(evt);
+            }
+        });
+
+        roleLabel.setText("Rola");
+
+        publisherButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/living.png"))); // NOI18N
+        publisherButton.setMaximumSize(new java.awt.Dimension(64, 64));
+        publisherButton.setMinimumSize(new java.awt.Dimension(64, 64));
+        publisherButton.setPreferredSize(new java.awt.Dimension(64, 64));
+        publisherButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                publisherButtonActionPerformed(evt);
+            }
+        });
+
+        publisherLabel.setText("Wydawnictwo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,36 +173,134 @@ public class AdminFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bookLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(categoryLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(authorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(authorLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addressButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addressLabel)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(readerButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(librarianButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(readerLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(librarianLabel)))
                         .addGap(18, 18, 18)
-                        .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(roleButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roleLabel))
                         .addGap(18, 18, 18)
-                        .addComponent(authorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(addressButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(publisherLabel)
+                            .addComponent(publisherButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(authorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addressButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(200, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(librarianLabel)
+                            .addComponent(roleLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(librarianButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(bookLabel)
+                                    .addComponent(categoryLabel)
+                                    .addComponent(authorLabel)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addressLabel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(authorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addressButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(readerLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(readerButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(publisherLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(roleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(publisherButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryButtonActionPerformed
-        // TODO add your handling code here:
+        CategoryCreator cc = new CategoryCreator();
+        cc.setVisible(true);
     }//GEN-LAST:event_categoryButtonActionPerformed
+
+    private void bookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookButtonActionPerformed
+        BookCreator bc = new BookCreator();
+        bc.setVisible(true);
+    }//GEN-LAST:event_bookButtonActionPerformed
+
+    private void authorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorButtonActionPerformed
+        AuthorCreator ac = new AuthorCreator();
+        ac.setVisible(true);
+    }//GEN-LAST:event_authorButtonActionPerformed
+
+    private void addressButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressButtonActionPerformed
+        AddressCreator ac = new AddressCreator();
+        ac.setVisible(true);
+    }//GEN-LAST:event_addressButtonActionPerformed
+
+    private void readerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readerButtonActionPerformed
+        ReaderCreator rc = new ReaderCreator();
+        rc.setVisible(true);
+        
+    }//GEN-LAST:event_readerButtonActionPerformed
+
+    private void librarianButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_librarianButtonActionPerformed
+        LibrarianCreator lc = new LibrarianCreator();
+        lc.setVisible(true);
+    }//GEN-LAST:event_librarianButtonActionPerformed
+
+    private void roleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleButtonActionPerformed
+        RoleCreator rc = new RoleCreator();
+        rc.setVisible(true);
+    }//GEN-LAST:event_roleButtonActionPerformed
+
+    private void publisherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherButtonActionPerformed
+        PublisherCreator pc = new PublisherCreator();
+        pc.setVisible(true);
+    }//GEN-LAST:event_publisherButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,9 +340,21 @@ public class AdminFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBook7;
     private javax.swing.JButton addressButton;
-    private javax.swing.JButton authorButton1;
+    private javax.swing.JLabel addressLabel;
+    private javax.swing.JButton authorButton;
+    private javax.swing.JLabel authorLabel;
     private javax.swing.JButton bookButton;
+    private javax.swing.JLabel bookLabel;
     private javax.swing.JButton categoryButton;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel categoryLabel;
+    private javax.swing.JLabel headerLabel;
+    private javax.swing.JButton librarianButton;
+    private javax.swing.JLabel librarianLabel;
+    private javax.swing.JButton publisherButton;
+    private javax.swing.JLabel publisherLabel;
+    private javax.swing.JButton readerButton;
+    private javax.swing.JLabel readerLabel;
+    private javax.swing.JButton roleButton;
+    private javax.swing.JLabel roleLabel;
     // End of variables declaration//GEN-END:variables
 }
