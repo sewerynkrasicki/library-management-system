@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -57,24 +59,9 @@ public class CategoryCreator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "nazwa"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
-            }
-        });
+        ));
         categoryTable.setColumnSelectionAllowed(true);
         categoryTable.setShowGrid(true);
         categoryTable.getTableHeader().setReorderingAllowed(false);
@@ -85,10 +72,6 @@ public class CategoryCreator extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(categoryTable);
         categoryTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (categoryTable.getColumnModel().getColumnCount() > 0) {
-            categoryTable.getColumnModel().getColumn(0).setResizable(false);
-            categoryTable.getColumnModel().getColumn(1).setResizable(false);
-        }
 
         addCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wizard.png"))); // NOI18N
         addCategory.addActionListener(new java.awt.event.ActionListener() {
@@ -172,54 +155,80 @@ public class CategoryCreator extends javax.swing.JFrame {
 
     private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
         try {
+            String nf = nameField.getText();
+            if(nf.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!Pattern.matches("([A-Z][a-z]*|[A-Z][a-z]*-[A-Z][a-z]*|[a-zA-Z]* [a-zA-Z]*)", nf) || nf.length()>50)){
+                    JOptionPane.showMessageDialog(this, "Nazwa kategorii musi zawierać tylko litery. Musi się zaczynać od dużej litery. Długość ma nie przekraczać 50 znaków.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
             KategoriaDAO kat = new KategoriaDAO();
-            kat.createCategory(nameField.getText());
+            kat.createCategory(nf);
             categoryTable.setModel(dtm(kat.readCategory()));
+            setCategoryTableWidth();
+            }
         } catch (Exception ex) {
             Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addCategoryActionPerformed
 
     private void recordCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordCategoryActionPerformed
-        // TODO add your handling code here:
+
         try {
-            KategoriaDAO kat = new KategoriaDAO();
-            int selectedRow = categoryTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            kat.updateCategory(id, nameField.getText());
-            categoryTable.setModel(dtm(kat.readCategory()));
+            String nf = nameField.getText();
+            if(categoryTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                if(nf.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("([A-Z][a-z]*|[A-Z][a-z]*-[A-Z][a-z]*|[a-zA-Z]* [a-zA-Z]*)", nf) || nf.length()>50)){
+                        JOptionPane.showMessageDialog(this, "Nazwa kategorii musi zawierać tylko litery. Musi się zaczynać od dużej litery. Długość ma nie przekraczać 50 znaków.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    KategoriaDAO kat = new KategoriaDAO();
+                    int selectedRow = categoryTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
+                    int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                    kat.updateCategory(id, nameField.getText());
+                    categoryTable.setModel(dtm(kat.readCategory()));
+                    setCategoryTableWidth();
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordCategoryActionPerformed
 
     private void deleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCategoryActionPerformed
-        // TODO add your handling code here:
+
         try {
-            KategoriaDAO kat = new KategoriaDAO();
-            int selectedRow = categoryTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            kat.deleteCategory(id);
-            categoryTable.setModel(dtm(kat.readCategory()));
+            if(categoryTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                KategoriaDAO kat = new KategoriaDAO();
+                int selectedRow = categoryTable.getSelectedRow();
+                DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
+                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                kat.deleteCategory(id);
+                categoryTable.setModel(dtm(kat.readCategory()));
+                setCategoryTableWidth();
+            }
         } catch (Exception ex) {
             Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deleteCategoryActionPerformed
 
     private void readButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readButtonActionPerformed
-        // TODO add your handling code here:
+
         try {
             KategoriaDAO kat = new KategoriaDAO();
             categoryTable.setModel(dtm(kat.readCategory()));
+            setCategoryTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(CategoryCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readButtonActionPerformed
 
     private void categoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryTableMouseClicked
-        // TODO add your handling code here:
+
             int selectedRow = categoryTable.getSelectedRow();
             DefaultTableModel dt = (DefaultTableModel)categoryTable.getModel();
             String text1 = (String)dt.getValueAt(selectedRow,1);
@@ -242,6 +251,12 @@ public class CategoryCreator extends javax.swing.JFrame {
         }
         return tab;
     }
+    
+    public void setCategoryTableWidth(){
+        categoryTable.getColumnModel().getColumn(0).setMinWidth(0);
+        categoryTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        categoryTable.getColumnModel().getColumn(0).setWidth(0);
+    }   
     
     /**
      * @param args the command line arguments

@@ -113,7 +113,10 @@ public class Ksiazka {
         this.wydawnictwo = wydawnictwo;
     }
     
-    
+    @Override
+    public String toString() {
+        return getTytuł();
+    }
     
     
     

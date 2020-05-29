@@ -77,24 +77,9 @@ public class AddressCreator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "miasto", "ulica", "kodPocztowy", "nrDomu"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         AddressTable.setColumnSelectionAllowed(true);
         AddressTable.setShowGrid(true);
         AddressTable.getTableHeader().setReorderingAllowed(false);
@@ -105,13 +90,6 @@ public class AddressCreator extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(AddressTable);
         AddressTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (AddressTable.getColumnModel().getColumnCount() > 0) {
-            AddressTable.getColumnModel().getColumn(0).setResizable(false);
-            AddressTable.getColumnModel().getColumn(1).setResizable(false);
-            AddressTable.getColumnModel().getColumn(2).setResizable(false);
-            AddressTable.getColumnModel().getColumn(3).setResizable(false);
-            AddressTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         addAddress.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wizard.png"))); // NOI18N
         addAddress.addActionListener(new java.awt.event.ActionListener() {
@@ -236,16 +214,31 @@ public class AddressCreator extends javax.swing.JFrame {
 
     private void addAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAddressActionPerformed
         try {
-            if((cityField.getText().isEmpty() || streetField.getText().isEmpty() || postalCodeField.getText().isEmpty() || houseNrField.getText().isEmpty()))
+            String cf = cityField.getText();
+            String sf = streetField.getText();
+            String pc = postalCodeField.getText();
+            String hnr = houseNrField.getText();
+            if((cf.isEmpty() || sf.isEmpty() || pc.isEmpty() || hnr.isEmpty()))
             {
                 JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }else if(!Pattern.matches("[a-zA-Z]*", cityField.getText())){
-                JOptionPane.showMessageDialog(this, "Miasto może zawierać tylko litery.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }            
+            }else if((!Pattern.matches("([a-zA-Z]*|[a-zA-Z]* [a-zA-Z]*)", cf) || cf.length()>30)){
+                JOptionPane.showMessageDialog(this, "Miasto może zawierać tylko litery. Długość nie może przekraczać 30", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!Pattern.matches("[a-zA-Z]*", sf) || sf.length()>30)){
+                JOptionPane.showMessageDialog(this, "Ulica może zawierać tylko litery. Długość nie może przekraczać 30", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+            else if(!Pattern.matches("[0-9][0-9]-[0-9][0-9][0-9]", pc))
+            {
+                JOptionPane.showMessageDialog(this, "Kod pocztowy powinien składać się z dwóch cyfr, myślnika i trzech cyfr. Przykład: 14-500", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+            else if((!Pattern.matches("[a-zA-Z0-9]+",  hnr) ||  hnr.length() > 4))
+            {
+                JOptionPane.showMessageDialog(this, "Numer domów nie powinen zawierać więcej niż 4 znaki - tylko litery oraz cyfry.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }          
             else{
                 AdresDAO adr = new AdresDAO();
-                adr.createAddress(cityField.getText(), streetField.getText(), postalCodeField.getText(), houseNrField.getText());
+                adr.createAddress(cf, sf, pc, hnr);
                 AddressTable.setModel(dtm(adr.readAddress()));
+                setAddressTableWidth();
             }
         } catch (Exception ex) {
             Logger.getLogger(AddressCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -253,17 +246,39 @@ public class AddressCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_addAddressActionPerformed
 
     private void recordAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordAddressActionPerformed
-        // TODO add your handling code here:
+
         try {
             if(AddressTable.getSelectionModel().isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
             }else{
-                AdresDAO adr = new AdresDAO();
-                int selectedRow = AddressTable.getSelectedRow();
-                DefaultTableModel dt = (DefaultTableModel)AddressTable.getModel();
-                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-                adr.updateAddress(id, cityField.getText(), streetField.getText(), postalCodeField.getText(), houseNrField.getText());
-                AddressTable.setModel(dtm(adr.readAddress()));
+                String cf = cityField.getText();
+                String sf = streetField.getText();
+                String pc = postalCodeField.getText();
+                String hnr = houseNrField.getText();
+                if((cf.isEmpty() || sf.isEmpty() || pc.isEmpty() || hnr.isEmpty()))
+                {
+                    JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("([a-zA-Z]*|[a-zA-Z]* [a-zA-Z]*)", cf) || cf.length()>30)){
+                    JOptionPane.showMessageDialog(this, "Miasto może zawierać tylko litery. Długość nie może przekraczać 30", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("[a-zA-Z]*", sf) || sf.length()>30)){
+                    JOptionPane.showMessageDialog(this, "Ulica może zawierać tylko litery. Długość nie może przekraczać 30", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(!Pattern.matches("[0-9][0-9]-[0-9][0-9][0-9]", pc))
+                {
+                    JOptionPane.showMessageDialog(this, "Kod pocztowy powinien składać się z dwóch cyfr, myślnika i trzech cyfr. Przykład: 14-500", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                else if((!Pattern.matches("[a-zA-Z0-9]+",  hnr) ||  hnr.length() > 4))
+                {
+                    JOptionPane.showMessageDialog(this, "Numer domów nie powinen zawierać więcej niż 4 znaki - tylko litery oraz cyfry.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else{    
+                    AdresDAO adr = new AdresDAO();
+                    int selectedRow = AddressTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)AddressTable.getModel();
+                    int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                    adr.updateAddress(id, cf, sf, pc, hnr);
+                    AddressTable.setModel(dtm(adr.readAddress()));
+                    setAddressTableWidth();
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(AddressCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -271,7 +286,7 @@ public class AddressCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_recordAddressActionPerformed
 
     private void deleteAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAddressActionPerformed
-        // TODO add your handling code here:
+
         try {
             if(AddressTable.getSelectionModel().isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
@@ -282,6 +297,7 @@ public class AddressCreator extends javax.swing.JFrame {
                 int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
                 adr.deleteAddress(id);
                 AddressTable.setModel(dtm(adr.readAddress()));
+                setAddressTableWidth();
             }
         } catch (Exception ex) {
             Logger.getLogger(AddressCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -289,17 +305,18 @@ public class AddressCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteAddressActionPerformed
 
     private void readAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readAddressActionPerformed
-        // TODO add your handling code here:
+
         try {
             AdresDAO adr = new AdresDAO();
             AddressTable.setModel(dtm(adr.readAddress()));
+            setAddressTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(AddressCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readAddressActionPerformed
 
     private void AddressTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddressTableMouseClicked
-        // TODO add your handling code here:
+
             int selectedRow = AddressTable.getSelectedRow();
             DefaultTableModel dt = (DefaultTableModel)AddressTable.getModel();
             String text1 = (String)dt.getValueAt(selectedRow,1);
@@ -329,6 +346,12 @@ public class AddressCreator extends javax.swing.JFrame {
         }
         return tab;
     }
+    
+    public void setAddressTableWidth(){
+        AddressTable.getColumnModel().getColumn(0).setMinWidth(0);
+        AddressTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        AddressTable.getColumnModel().getColumn(0).setWidth(0);
+    }   
     
     /**
      * @param args the command line arguments

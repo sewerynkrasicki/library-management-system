@@ -73,10 +73,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="returnField" alignment="1" max="32767" attributes="0"/>
                           <Component id="returnDateField" max="32767" attributes="0"/>
-                          <Component id="readerField" alignment="1" max="32767" attributes="0"/>
-                          <Component id="pieceField" max="32767" attributes="0"/>
                           <Component id="lendDateField" alignment="1" max="32767" attributes="0"/>
                           <Component id="penaltyField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="readerBox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="pieceBox" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -87,17 +87,17 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="readerField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="reader" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="readerBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="pieceField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="piece" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pieceBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lendDateField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lendDate" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -125,7 +125,7 @@
                   <Component id="returnField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="returnLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="22" max="32767" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                       <Component id="deleteLend" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -210,14 +210,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="id_czytelnika"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="readerField">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
-        </Property>
+        <Property name="text" type="java.lang.String" value="czytelnik"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="readLend">
@@ -235,20 +228,13 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="id_egzemplarza"/>
+        <Property name="text" type="java.lang.String" value="egzemplarz"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="login">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="pieceField">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
         </Property>
       </Properties>
     </Component>
@@ -311,6 +297,26 @@
         </Property>
         <Property name="text" type="java.lang.String" value="oddane"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="readerBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="pieceBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

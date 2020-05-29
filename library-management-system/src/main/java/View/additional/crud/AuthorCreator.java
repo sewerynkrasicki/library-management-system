@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -64,24 +66,9 @@ public class AuthorCreator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "imie", "nazwisko", "miejsceUrodzenia", "wiekDzialania"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         authorTable.setColumnSelectionAllowed(true);
         authorTable.setShowGrid(true);
         authorTable.getTableHeader().setReorderingAllowed(false);
@@ -92,13 +79,6 @@ public class AuthorCreator extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(authorTable);
         authorTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (authorTable.getColumnModel().getColumnCount() > 0) {
-            authorTable.getColumnModel().getColumn(0).setResizable(false);
-            authorTable.getColumnModel().getColumn(1).setResizable(false);
-            authorTable.getColumnModel().getColumn(2).setResizable(false);
-            authorTable.getColumnModel().getColumn(3).setResizable(false);
-            authorTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         addAuthor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wizard.png"))); // NOI18N
         addAuthor.addActionListener(new java.awt.event.ActionListener() {
@@ -221,54 +201,101 @@ public class AuthorCreator extends javax.swing.JFrame {
 
     private void addAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAuthorActionPerformed
         try {
-            AutorDAO aut = new AutorDAO();
-            aut.createAuthor(firstNameField.getText(), secondNameField.getText(), countryField.getText(), centuryField.getText());
-            authorTable.setModel(dtm(aut.readAuthor()));
+            String first = firstNameField.getText();
+            String second = secondNameField.getText();
+            String country = countryField.getText();
+            String century = centuryField.getText();
+            if((first.isEmpty() || second.isEmpty() || country.isEmpty() || century.isEmpty()))
+            {
+                JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!Pattern.matches("[A-Z][a-z]*", first) || first.length()>30)){
+                JOptionPane.showMessageDialog(this, "Imie musi się składać z pierwszej dużej litery. Długość nie może przekraczać 30.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!Pattern.matches("([A-Z][a-z]*-[A-Z][a-z]*|[A-Z][a-z]*)", second) || first.length()>30)){
+                JOptionPane.showMessageDialog(this, "Nazwisko musi się składać z pierwszej dużej litery. Długość nie może przekraczać 30.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(country.length()>30){
+                JOptionPane.showMessageDialog(this, "Długość nie może przekraczać 30.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!Pattern.matches("[A-Z]{1,6}", century))){
+                JOptionPane.showMessageDialog(this, "Wiek działania ma zawierać same duże litery i nie może być dłuższy niż 6", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                AutorDAO aut = new AutorDAO();
+                aut.createAuthor(first, second, country, century);
+                authorTable.setModel(dtm(aut.readAuthor()));
+                setAuthorTableWidth();
+            }
         } catch (Exception ex) {
             Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addAuthorActionPerformed
 
     private void recordAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordAuthorActionPerformed
-        // TODO add your handling code here:
+
         try {
-            AutorDAO aut = new AutorDAO();
-            int selectedRow = authorTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)authorTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            aut.updateAuthor(id, firstNameField.getText(), secondNameField.getText(), countryField.getText(), centuryField.getText());
-            authorTable.setModel(dtm(aut.readAuthor()));
+            if(authorTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                String first = firstNameField.getText();
+                String second = secondNameField.getText();
+                String country = countryField.getText();
+                String century = centuryField.getText();
+                if((first.isEmpty() || second.isEmpty() || country.isEmpty() || century.isEmpty()))
+                {
+                    JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("[A-Z][a-z]*", first) || first.length()>30)){
+                    JOptionPane.showMessageDialog(this, "Imie musi się składać z pierwszej dużej litery. Długość nie może przekraczać 30.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("([A-Z][a-z]*-[A-Z][a-z]*|[A-Z][a-z]*)", second) || first.length()>30)){
+                    JOptionPane.showMessageDialog(this, "Nazwisko musi się składać z pierwszej dużej litery. Długość nie może przekraczać 30.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(country.length()>30 ){
+                    JOptionPane.showMessageDialog(this, "Kraj musi się składać z pierwszej dużej litery. Długość nie może przekraczać 30.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("[A-Z]{1,6}", century))){
+                    JOptionPane.showMessageDialog(this, "Wiek działania ma zawierać same duże litery i nie może być dłuższy niż 6", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    AutorDAO aut = new AutorDAO();
+                    int selectedRow = authorTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)authorTable.getModel();
+                    int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                    aut.updateAuthor(id, first, second, country, century);
+                    authorTable.setModel(dtm(aut.readAuthor()));
+                    setAuthorTableWidth();
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordAuthorActionPerformed
 
     private void deleteAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAuthorActionPerformed
-        // TODO add your handling code here:
+
         try {
-            AutorDAO aut = new AutorDAO();
-            int selectedRow = authorTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)authorTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            aut.deleteAuthor(id);
-            authorTable.setModel(dtm(aut.readAuthor()));
+            if(authorTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                AutorDAO aut = new AutorDAO();
+                int selectedRow = authorTable.getSelectedRow();
+                DefaultTableModel dt = (DefaultTableModel)authorTable.getModel();
+                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                aut.deleteAuthor(id);
+                authorTable.setModel(dtm(aut.readAuthor()));
+                setAuthorTableWidth();  
+            }
         } catch (Exception ex) {
             Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deleteAuthorActionPerformed
 
     private void readAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readAuthorActionPerformed
-        // TODO add your handling code here:
+
         try {
             AutorDAO aut = new AutorDAO();
             authorTable.setModel(dtm(aut.readAuthor()));
+            setAuthorTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(AuthorCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readAuthorActionPerformed
 
     private void authorTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_authorTableMouseClicked
-        // TODO add your handling code here:
+
             int selectedRow = authorTable.getSelectedRow();
             DefaultTableModel dt = (DefaultTableModel)authorTable.getModel();
             String text1 = (String)dt.getValueAt(selectedRow,1);
@@ -298,6 +325,12 @@ public class AuthorCreator extends javax.swing.JFrame {
         }
         return tab;
     }
+    
+    public void setAuthorTableWidth(){
+        authorTable.getColumnModel().getColumn(0).setMinWidth(0);
+        authorTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        authorTable.getColumnModel().getColumn(0).setWidth(0);
+    } 
     
     /**
      * @param args the command line arguments

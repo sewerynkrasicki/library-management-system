@@ -44,6 +44,10 @@ public class Kategoria {
         this.nazwa = nazwa;
     }
     
+    @Override
+    public String toString() {
+        return getNazwa();
+    } 
     
     
 }

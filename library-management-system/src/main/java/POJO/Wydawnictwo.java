@@ -75,4 +75,9 @@ public class Wydawnictwo {
     public void setNIP(String NIP) {
         this.NIP = NIP;
     }
+    
+    @Override
+    public String toString() {
+        return getNazwa()+ " " + getNIP();
+    }
 }

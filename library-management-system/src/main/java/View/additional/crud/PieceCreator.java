@@ -5,11 +5,14 @@
  */
 package view.additional.crud;
 import POJO.Egzemplarz;
+import POJO.Ksiazka;
 import dao.EgzemplarzDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
@@ -48,7 +51,7 @@ public class PieceCreator extends javax.swing.JFrame {
         bookId = new javax.swing.JLabel();
         avaliableField = new javax.swing.JTextField();
         available = new javax.swing.JLabel();
-        idBookField = new javax.swing.JTextField();
+        bookComboBox = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -122,14 +125,12 @@ public class PieceCreator extends javax.swing.JFrame {
         });
 
         bookId.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bookId.setText("id_ksiazki");
+        bookId.setText("Ksiazka");
 
         avaliableField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         available.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        available.setText("dostepna");
-
-        idBookField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        available.setText("Dostepna");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,7 +139,7 @@ public class PieceCreator extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(addPiece)
                         .addGap(18, 18, 18)
@@ -158,8 +159,8 @@ public class PieceCreator extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(avaliableField)
-                            .addComponent(idBookField)
-                            .addComponent(amountField))))
+                            .addComponent(amountField)
+                            .addComponent(bookComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -172,8 +173,8 @@ public class PieceCreator extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bookId)
-                    .addComponent(idBookField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(bookComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(available)
                     .addComponent(avaliableField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -194,19 +195,32 @@ public class PieceCreator extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public JComboBox getComboBox(){
+        return bookComboBox;
+    }
+    
     private void addPieceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPieceActionPerformed
         try {
-            if((amountField.getText().isEmpty() || idBookField.getText().isEmpty() || avaliableField.getText().isEmpty()))
-            {
+            String af = amountField.getText();
+            String avf = avaliableField.getText();
+            if((af.isEmpty() || avf.isEmpty())){
                 JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }         
+            }
+            else if(!Pattern.matches("true|false", avf)){
+                JOptionPane.showMessageDialog(this, "Pole dostępny może mieć tylko wartość true albo false", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+            else if(!Pattern.matches("[0-9]{1,3}", af) ){
+                JOptionPane.showMessageDialog(this, "Pole stan przyjmuje tylko liczby. Maksymalna ilość liczb to 3.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
             else{
                 EgzemplarzDAO egzd = new EgzemplarzDAO();
-                egzd.createPiece(Integer.parseInt(amountField.getText()), Boolean.parseBoolean(avaliableField.getText()), Integer.parseInt(idBookField.getText()));
+                Ksiazka k = (Ksiazka) bookComboBox.getSelectedItem();
+                egzd.createPiece(Integer.parseInt(af), Boolean.parseBoolean(avf), k.getId());
                 pieceTable.setModel(dtm(egzd.readPieces()));
+                setPieceTableWidth();
             }
         } catch (Exception ex) {
-            System.out.println(ex + " przy tworzeniu");;
+            System.out.println(ex + " przy tworzeniu");
         }
     }//GEN-LAST:event_addPieceActionPerformed
 
@@ -216,16 +230,30 @@ public class PieceCreator extends javax.swing.JFrame {
             if(pieceTable.getSelectionModel().isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
             }else{
-                int selectedRow = pieceTable.getSelectedRow();
-                DefaultTableModel dt = (DefaultTableModel)pieceTable.getModel();
-                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-                
-                EgzemplarzDAO egzd = new EgzemplarzDAO();
-                Egzemplarz egz = egzd.getPiece(id);
-                
-                egzd.updatePiece(egz,Integer.parseInt(amountField.getText()), Boolean.parseBoolean(avaliableField.getText()), Integer.parseInt(idBookField.getText()));
-                
-                pieceTable.setModel(dtm(egzd.readPieces()));
+                String af = amountField.getText();
+                String avf = avaliableField.getText();
+                if((af.isEmpty() || avf.isEmpty())){
+                    JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(!Pattern.matches("true|false", avf)){
+                    JOptionPane.showMessageDialog(this, "Pole dostępny może mieć tylko wartość true albo false", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(!Pattern.matches("[0-9]{1,3}", af) ){
+                    JOptionPane.showMessageDialog(this, "Pole stan przyjmuje tylko liczby. Maksymalna ilość liczb to 3.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    int selectedRow = pieceTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)pieceTable.getModel();
+                    int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+
+                    EgzemplarzDAO egzd = new EgzemplarzDAO();
+                    Egzemplarz egz = egzd.getPiece(id);
+                    Ksiazka k = (Ksiazka) bookComboBox.getSelectedItem();
+
+                    egzd.updatePiece(egz,Integer.parseInt(af), Boolean.parseBoolean(avf), k.getId());
+
+                    pieceTable.setModel(dtm(egzd.readPieces()));
+                    setPieceTableWidth();
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(PieceCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -244,6 +272,7 @@ public class PieceCreator extends javax.swing.JFrame {
                 int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
                 egzd.deletePiece(id);
                 pieceTable.setModel(dtm(egzd.readPieces()));
+                setPieceTableWidth();
             }
         } catch (Exception ex) {
             Logger.getLogger(PieceCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,6 +284,7 @@ public class PieceCreator extends javax.swing.JFrame {
         try {
             EgzemplarzDAO egzd = new EgzemplarzDAO();
             pieceTable.setModel(dtm(egzd.readPieces()));
+            setPieceTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(PieceCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -264,13 +294,11 @@ public class PieceCreator extends javax.swing.JFrame {
 
             int selectedRow = pieceTable.getSelectedRow();
             DefaultTableModel dt = (DefaultTableModel)pieceTable.getModel();
-            int text1 = (int)dt.getValueAt(selectedRow,1);
-            String text2 = (String)dt.getValueAt(selectedRow,2);
-            int text3 = (int)dt.getValueAt(selectedRow,3);
             
-               
-            amountField.setText(String.valueOf(text1));
-            idBookField.setText(String.valueOf(text3));
+            String text1 = (String)dt.getValueAt(selectedRow,1);
+            String text2 = (String)dt.getValueAt(selectedRow,2);
+              
+            amountField.setText(text1);
             avaliableField.setText(text2);
     }//GEN-LAST:event_pieceTableMouseClicked
 
@@ -286,12 +314,17 @@ public class PieceCreator extends javax.swing.JFrame {
         DefaultTableModel tab = new DefaultTableModel(columnNames, 0);
         
         for(Egzemplarz e:egz){
-            String[] row = {String.valueOf(e.getId()),String.valueOf(e.getStan()), String.valueOf(e.getDostepna()), String.valueOf(e.getKsiazka().getId())};
+            String[] row = {String.valueOf(e.getId()),String.valueOf(e.getStan()), String.valueOf(e.getDostepna()), String.valueOf(e.getKsiazka().getTytuł())};
             tab.addRow(row);
         }
         return tab;
     }
     
+    public void setPieceTableWidth(){
+        pieceTable.getColumnModel().getColumn(0).setMinWidth(0);
+        pieceTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        pieceTable.getColumnModel().getColumn(0).setWidth(0);
+    }   
     /**
      * @param args the command line arguments
      */
@@ -844,9 +877,9 @@ public class PieceCreator extends javax.swing.JFrame {
     private javax.swing.JTextField amountField;
     private javax.swing.JLabel available;
     private javax.swing.JTextField avaliableField;
+    private javax.swing.JComboBox<String> bookComboBox;
     private javax.swing.JLabel bookId;
     private javax.swing.JButton deletePiece;
-    private javax.swing.JTextField idBookField;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable pieceTable;

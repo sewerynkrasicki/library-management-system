@@ -76,6 +76,11 @@ public class WypożyczenieDAO extends DAO{
             wypozyczenia.setOddane(true);
             int ilosc = wypozyczenia.getEgzemplarz().getStan();
             wypozyczenia.getEgzemplarz().setStan(ilosc+1);
+            if(wypozyczenia.getEgzemplarz().getStan()>0){
+                wypozyczenia.getEgzemplarz().setDostepna(true);
+            }else{
+                wypozyczenia.getEgzemplarz().setDostepna(false);
+            }
             getSession().save(wypozyczenia);
             commit();
         }catch(HibernateException ex){

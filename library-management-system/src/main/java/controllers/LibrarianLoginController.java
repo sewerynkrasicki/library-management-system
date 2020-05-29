@@ -50,7 +50,7 @@ public class LibrarianLoginController implements ILoginInterface{
         if(biblid.getLibrarianByLogin(login).getRola().getUserType().equals("librarian")){
             if(biblid.getLibrarianByLogin(login).getHaslo().equals(password)){
                 bibliotekarz = biblid.getLibrarianByLogin(login);
-                AdminFrame af = new AdminFrame();
+                AdminFrame af = new AdminFrame(bibliotekarz);
                 f.dispose();
                 af.setVisible(true);
             }else{
@@ -65,7 +65,7 @@ public class LibrarianLoginController implements ILoginInterface{
         if(biblid.getLibrarianByLogin(login).getRola().getUserType().equals("admin")){
             if(biblid.getLibrarianByLogin(login).getHaslo().equals(password)){
                 bibliotekarz = biblid.getLibrarianByLogin(login);
-                AdminFrame af = new AdminFrame();
+                AdminFrame af = new AdminFrame(bibliotekarz);
                 f.dispose();
                 af.setVisible(true);
             }else{

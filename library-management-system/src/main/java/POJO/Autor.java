@@ -78,5 +78,10 @@ public class Autor {
     public void setWiekDzialania(String wiekDzialania) {
         this.wiekDzialania = wiekDzialania;
     }
+    
+    @Override
+    public String toString() {
+        return getImie()+ " " + getNazwisko();
+    }
 }
 

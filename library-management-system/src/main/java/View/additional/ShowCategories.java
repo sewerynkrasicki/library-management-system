@@ -41,6 +41,7 @@ public class ShowCategories extends javax.swing.JFrame {
         showCategoryTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Kategorie");
         setResizable(false);
 
         showCategoryTable.setModel(new javax.swing.table.DefaultTableModel(

@@ -30,9 +30,9 @@ public class NewAccountController {
                 JOptionPane.showMessageDialog(frame, "Login i hasło powinny mieć od 8 do 30 znaków !!!", "ERROR", JOptionPane.WARNING_MESSAGE);
             }
             else if((fNameField.length() > 30 || sNameField.length() > 30 || cityField.length() > 30 || streetField.length() > 30  || !Pattern.matches("[a-zA-Z]*", fNameField)
-                    || !Pattern.matches("[a-zA-Z]*", sNameField) || !Pattern.matches("[a-zA-Z]*", cityField) || !Pattern.matches("[a-zA-Z]*", streetField)))
+                    || !Pattern.matches("([A-Z][a-z]*-[A-Z][a-z]*|[A-Z][a-z]*)", sNameField) || !Pattern.matches("([a-zA-Z]*|[a-zA-Z]* [a-zA-Z]*)", cityField) || !Pattern.matches("[a-zA-Z]*", streetField)))
             {
-                JOptionPane.showMessageDialog(frame, "Imie, nazwisko, miasto oraz ulica powinny zawierać do 30 liter!!", "ERROR", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Imie, nazwisko, miasto oraz ulica powinny zawierać do 30 liter!! Nazwisko może być jednoczłonowe bądz dwu. Imie i nazwisko może być tylko z wielkiej litery.", "ERROR", JOptionPane.WARNING_MESSAGE);
             }
             else if(!Pattern.matches("[0-9][0-9]-[0-9][0-9][0-9]", postalCodeField))
             {

@@ -43,4 +43,8 @@ public class Rola {
     public void setUserType(String userType) {
         this.userType = userType;
     }
+    @Override
+    public String toString() {
+        return getUserType();
+    }
 }

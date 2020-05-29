@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -63,24 +65,9 @@ public class PublisherCreator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "nazwa", "miasto", "REGON", "NIP"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         publisherTable.setColumnSelectionAllowed(true);
         publisherTable.setShowGrid(true);
         publisherTable.getTableHeader().setReorderingAllowed(false);
@@ -91,13 +78,6 @@ public class PublisherCreator extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(publisherTable);
         publisherTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (publisherTable.getColumnModel().getColumnCount() > 0) {
-            publisherTable.getColumnModel().getColumn(0).setResizable(false);
-            publisherTable.getColumnModel().getColumn(1).setResizable(false);
-            publisherTable.getColumnModel().getColumn(2).setResizable(false);
-            publisherTable.getColumnModel().getColumn(3).setResizable(false);
-            publisherTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         addPublisher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wizard.png"))); // NOI18N
         addPublisher.addActionListener(new java.awt.event.ActionListener() {
@@ -222,54 +202,100 @@ public class PublisherCreator extends javax.swing.JFrame {
 
     private void addPublisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPublisherActionPerformed
         try {
-            WydawnictwoDAO wyd = new WydawnictwoDAO();
-            wyd.createPublisher(nameField.getText(), cityField.getText(), regonField.getText(), nipField.getText());
-            publisherTable.setModel(dtm(wyd.readPublisher()));
+            String nf = nameField.getText();
+            String cf = cityField.getText();
+            String rf = regonField.getText();
+            String nipf = nipField.getText();
+            if((nf.isEmpty() || cf.isEmpty() || rf.isEmpty() || nipf.isEmpty()))
+            {
+                JOptionPane.showMessageDialog(this, "Wszystkie pola muszą zostać uzupełnione.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!Pattern.matches("([a-zA-Z]*|[a-zA-Z]* [a-zA-Z]*)", nf) || !Pattern.matches("([a-zA-Z]*|[a-zA-Z]* [a-zA-Z]*)", cf) || nf.length()>30 || cf.length()>30))
+            {
+                JOptionPane.showMessageDialog(this, "Nazwa oraz miasto muszą zaczynać sie od dużej litery. Długość nie może przekraczać 30 liter.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(!Pattern.matches("[0-9]{9}", rf))
+            {
+                JOptionPane.showMessageDialog(this, "REGON musi zawierać 9 cyfr!", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(!Pattern.matches("[0-9]{10}", nipf)){
+                JOptionPane.showMessageDialog(this, "NIP musi zawierać 10 cyfr!", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                WydawnictwoDAO wyd = new WydawnictwoDAO();
+                wyd.createPublisher(nf, cf, rf, nipf);
+                publisherTable.setModel(dtm(wyd.readPublisher()));
+                setPublisherTableWidth();
+            }
         } catch (Exception ex) {
             Logger.getLogger(PublisherCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addPublisherActionPerformed
 
     private void recordPublisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordPublisherActionPerformed
-        // TODO add your handling code here:
+
         try {
-            WydawnictwoDAO wyd = new WydawnictwoDAO();
-            int selectedRow = publisherTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)publisherTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            wyd.updatePublisher(id, nameField.getText(), cityField.getText(), regonField.getText(), nipField.getText());
-            publisherTable.setModel(dtm(wyd.readPublisher()));
+            if(publisherTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                String nf = nameField.getText();
+                String cf = cityField.getText();
+                String rf = regonField.getText();
+                String nipf = nipField.getText();
+                if((nf.isEmpty() || cf.isEmpty() || rf.isEmpty() || nipf.isEmpty()))
+                {
+                    JOptionPane.showMessageDialog(this, "Wszystkie pola muszą zostać uzupełnione.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("([a-zA-Z]*|[a-zA-Z]* [a-zA-Z]*)", nf) || !Pattern.matches("([a-zA-Z]*|[a-zA-Z]* [a-zA-Z]*)", cf) || nf.length()>30 || cf.length()>30))
+                {
+                    JOptionPane.showMessageDialog(this, "Nazwa oraz miasto muszą zaczynać sie od dużej litery. Długość nie może przekraczać 30 liter.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(!Pattern.matches("[0-9]{9}", rf))
+                {
+                    JOptionPane.showMessageDialog(this, "REGON musi zawierać 9 cyfr!", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(!Pattern.matches("[0-9]{10}", nipf)){
+                    JOptionPane.showMessageDialog(this, "NIP musi zawierać 10 cyfr!", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    WydawnictwoDAO wyd = new WydawnictwoDAO();
+                    int selectedRow = publisherTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)publisherTable.getModel();
+                    int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                    wyd.updatePublisher(id, nf, cf, rf, nipf);
+                    publisherTable.setModel(dtm(wyd.readPublisher()));
+                    setPublisherTableWidth();
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(PublisherCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordPublisherActionPerformed
 
     private void deletePublisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePublisherActionPerformed
-        // TODO add your handling code here:
+
         try {
-            WydawnictwoDAO wyd = new WydawnictwoDAO();
-            int selectedRow = publisherTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)publisherTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            wyd.deletePublisher(id);
-            publisherTable.setModel(dtm(wyd.readPublisher()));
+            if(publisherTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                WydawnictwoDAO wyd = new WydawnictwoDAO();
+                int selectedRow = publisherTable.getSelectedRow();
+                DefaultTableModel dt = (DefaultTableModel)publisherTable.getModel();
+                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                wyd.deletePublisher(id);
+                publisherTable.setModel(dtm(wyd.readPublisher()));
+                setPublisherTableWidth();
+            }
         } catch (Exception ex) {
             Logger.getLogger(PublisherCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deletePublisherActionPerformed
 
     private void readPublisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readPublisherActionPerformed
-        // TODO add your handling code here:
+
         try {
             WydawnictwoDAO wyd = new WydawnictwoDAO();
             publisherTable.setModel(dtm(wyd.readPublisher()));
+            setPublisherTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(PublisherCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readPublisherActionPerformed
 
     private void publisherTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_publisherTableMouseClicked
-        // TODO add your handling code here:
+
             int selectedRow = publisherTable.getSelectedRow();
             DefaultTableModel dt = (DefaultTableModel)publisherTable.getModel();
             String text1 = (String)dt.getValueAt(selectedRow,1);
@@ -300,6 +326,11 @@ public class PublisherCreator extends javax.swing.JFrame {
         return tab;
     }
     
+    public void setPublisherTableWidth(){
+        publisherTable.getColumnModel().getColumn(0).setMinWidth(0);
+        publisherTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        publisherTable.getColumnModel().getColumn(0).setWidth(0);
+    }   
     /**
      * @param args the command line arguments
      */

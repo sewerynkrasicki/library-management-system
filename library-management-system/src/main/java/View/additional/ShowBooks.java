@@ -41,6 +41,7 @@ public class ShowBooks extends javax.swing.JFrame {
         showBookTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Książki");
         setResizable(false);
 
         showBookTable.setModel(new javax.swing.table.DefaultTableModel(

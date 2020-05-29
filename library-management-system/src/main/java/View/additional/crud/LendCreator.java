@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package view.additional.crud;
+import POJO.Czytelnik;
+import POJO.Egzemplarz;
 import POJO.Wypozyczenia;
 import dao.WypożyczenieDAO;
 import java.util.Date;
@@ -16,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import java.text.SimpleDateFormat;
+import java.util.regex.Pattern;
+import javax.swing.JComboBox;
 /**
  *
  * @author 35747
@@ -45,11 +49,9 @@ public class LendCreator extends javax.swing.JFrame {
         recordLend = new javax.swing.JButton();
         deleteLend = new javax.swing.JButton();
         reader = new javax.swing.JLabel();
-        readerField = new javax.swing.JTextField();
         readLend = new javax.swing.JButton();
         piece = new javax.swing.JLabel();
         login = new javax.swing.JLabel();
-        pieceField = new javax.swing.JTextField();
         lendDateField = new javax.swing.JTextField();
         returnDateField = new javax.swing.JTextField();
         lendDate = new javax.swing.JLabel();
@@ -58,6 +60,8 @@ public class LendCreator extends javax.swing.JFrame {
         penaltyField = new javax.swing.JTextField();
         returnField = new javax.swing.JTextField();
         returnLabel = new javax.swing.JLabel();
+        readerBox = new javax.swing.JComboBox<>();
+        pieceBox = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -119,9 +123,7 @@ public class LendCreator extends javax.swing.JFrame {
         });
 
         reader.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        reader.setText("id_czytelnika");
-
-        readerField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        reader.setText("czytelnik");
 
         readLend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search.png"))); // NOI18N
         readLend.addActionListener(new java.awt.event.ActionListener() {
@@ -131,11 +133,9 @@ public class LendCreator extends javax.swing.JFrame {
         });
 
         piece.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        piece.setText("id_egzemplarza");
+        piece.setText("egzemplarz");
 
         login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-
-        pieceField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         lendDateField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -190,24 +190,24 @@ public class LendCreator extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(returnField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(returnDateField)
-                            .addComponent(readerField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(pieceField)
                             .addComponent(lendDateField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(penaltyField))))
+                            .addComponent(penaltyField)
+                            .addComponent(readerBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pieceBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(readerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reader))
+                    .addComponent(reader)
+                    .addComponent(readerBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pieceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(piece))
-                .addGap(18, 18, 18)
+                    .addComponent(piece)
+                    .addComponent(pieceBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lendDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lendDate))
@@ -228,7 +228,7 @@ public class LendCreator extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(returnField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(returnLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(deleteLend, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -247,50 +247,92 @@ public class LendCreator extends javax.swing.JFrame {
 
     private void addLendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLendActionPerformed
         try {
-            if((readerField.getText().isEmpty() || pieceField.getText().isEmpty()))
+            String ld = lendDateField.getText();
+            String rd = returnDateField.getText();
+            String pf = penaltyField.getText();
+            String rf = returnField.getText();
+            if((ld.isEmpty() || pf.isEmpty() || rf.isEmpty()))
             {
-                JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }         
+                JOptionPane.showMessageDialog(this, "Tylko pole oddania może być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+            else if(!Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", ld)){
+                JOptionPane.showMessageDialog(this, "Data wypożyczenia musi mieć format RRRR-MM-DD", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(!Pattern.matches("[0-9]*.[0-9]{1,2}", pf))
+            {
+                JOptionPane.showMessageDialog(this, "Kara musi mieć część groszową", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(!Pattern.matches("true|false", rf)){
+                JOptionPane.showMessageDialog(this, "Oddanie musi być równe false albo true.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!rd.isEmpty() && !Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", rd))){
+                JOptionPane.showMessageDialog(this, "Data oddania musi mieć format RRRR-MM-DD", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
             else{
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 WypożyczenieDAO wypozyczenied = new WypożyczenieDAO();
+                
+                Czytelnik c = (Czytelnik) readerBox.getSelectedItem();
+                Egzemplarz e = (Egzemplarz) pieceBox.getSelectedItem();
+                
                 Date returnDate;
-                if(returnDateField.getText().isEmpty()){
+                if(rd.isEmpty()){
                     returnDate = null;
                 }else{
-                returnDate = formatter.parse(returnDateField.getText());
+                returnDate = formatter.parse(rd);
                 }
                 
-                wypozyczenied.createLendAdmin(formatter.parse(lendDateField.getText()), returnDate, Double.parseDouble(penaltyField.getText()),Integer.parseInt(readerField.getText()), Integer.parseInt(pieceField.getText()), Boolean.parseBoolean(returnField.getText()));
+                wypozyczenied.createLendAdmin(formatter.parse(ld), returnDate, Double.parseDouble(pf),c.getId(), e.getId(), Boolean.parseBoolean(rf));
                 lendTable.setModel(dtm(wypozyczenied.readLend()));
+                setLendTableWidth();
             }
         } catch (Exception ex) {
-            System.out.println(ex);;
+            System.out.println(ex);
         }
     }//GEN-LAST:event_addLendActionPerformed
 
     private void recordLendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordLendActionPerformed
-        // TODO add your handling code here:
+
         try {
             if(lendTable.getSelectionModel().isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
             }else{
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                int selectedRow = lendTable.getSelectedRow();
-                DefaultTableModel dt = (DefaultTableModel)lendTable.getModel();
-                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-                
-                WypożyczenieDAO wypozyczenied = new WypożyczenieDAO();
-                Wypozyczenia wypozyczenie = wypozyczenied.getLend(id);
-                Date returnDate;
-                if(returnDateField.getText().isEmpty()){
-                    returnDate = null;
-                }else{
-                returnDate = formatter.parse(returnDateField.getText());
+                String ld = lendDateField.getText();
+                String rd = returnDateField.getText();
+                String pf = penaltyField.getText();
+                String rf = returnField.getText();
+                if((ld.isEmpty() || pf.isEmpty() || rf.isEmpty()))
+                {
+                    JOptionPane.showMessageDialog(this, "Tylko pole oddania może być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
                 }
-                wypozyczenied.updateLend(wypozyczenie, formatter.parse(lendDateField.getText()), returnDate, Double.parseDouble(penaltyField.getText()),Integer.parseInt(readerField.getText()), Integer.parseInt(pieceField.getText()), Boolean.parseBoolean(returnField.getText()));
-                
-                lendTable.setModel(dtm(wypozyczenied.readLend()));
+                else if(!Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", ld)){
+                    JOptionPane.showMessageDialog(this, "Data wypożyczenia musi mieć format RRRR-MM-DD", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(!Pattern.matches("[0-9]*.[0-9]{1,2}", pf))
+                {
+                    JOptionPane.showMessageDialog(this, "Kara musi mieć część groszową", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(!Pattern.matches("true|false", rf)){
+                    JOptionPane.showMessageDialog(this, "Oddanie musi być równe false albo true.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!rd.isEmpty() && !Pattern.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}", rd))){
+                    JOptionPane.showMessageDialog(this, "Data oddania musi mieć format RRRR-MM-DD", "ERROR", JOptionPane.WARNING_MESSAGE);
+                } 
+                else{
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    int selectedRow = lendTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)lendTable.getModel();
+                    int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+
+                    WypożyczenieDAO wypozyczenied = new WypożyczenieDAO();
+                    Wypozyczenia wypozyczenie = wypozyczenied.getLend(id);
+                    Czytelnik c = (Czytelnik) readerBox.getSelectedItem();
+                    Egzemplarz e = (Egzemplarz) pieceBox.getSelectedItem();
+                    Date returnDate;
+                    if(rd.isEmpty()){
+                        returnDate = null;
+                    }else{
+                    returnDate = formatter.parse(rd);
+                    }
+                    wypozyczenied.updateLend(wypozyczenie, formatter.parse(ld), returnDate, Double.parseDouble(pf),c.getId(), e.getId(), Boolean.parseBoolean(rf));
+
+                    lendTable.setModel(dtm(wypozyczenied.readLend()));
+                    setLendTableWidth();
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(LendCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -298,7 +340,7 @@ public class LendCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_recordLendActionPerformed
 
     private void deleteLendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteLendActionPerformed
-        // TODO add your handling code here:
+
         try {
             if(lendTable.getSelectionModel().isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
@@ -309,6 +351,7 @@ public class LendCreator extends javax.swing.JFrame {
                 int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
                 wypozyczenied.deleteLend(id);
                 lendTable.setModel(dtm(wypozyczenied.readLend()));
+                setLendTableWidth();
             }
         } catch (Exception ex) {
             Logger.getLogger(LendCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -316,10 +359,11 @@ public class LendCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteLendActionPerformed
 
     private void readLendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readLendActionPerformed
-        // TODO add your handling code here:
+
         try {
             WypożyczenieDAO wypozyczenied = new WypożyczenieDAO();
             lendTable.setModel(dtm(wypozyczenied.readLend()));
+            setLendTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(LendCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -332,16 +376,10 @@ public class LendCreator extends javax.swing.JFrame {
             String text1 = (String)dt.getValueAt(selectedRow,1);
             String text2 = (String)dt.getValueAt(selectedRow,2);
             String text3 = (String)dt.getValueAt(selectedRow,3);
-            String text4 = (String)dt.getValueAt(selectedRow,4);
-            String text5 = (String)dt.getValueAt(selectedRow,5);
-            String text6 = (String)dt.getValueAt(selectedRow,6);
                         
-            readerField.setText(text5);
-            pieceField.setText(text4);
             lendDateField.setText(text1);
             returnDateField.setText(text2);
             penaltyField.setText(text3);
-            returnField.setText(text6);
     }//GEN-LAST:event_lendTableMouseClicked
 
     private DefaultTableModel dtm(List<Wypozyczenia> wyp){
@@ -368,12 +406,27 @@ public class LendCreator extends javax.swing.JFrame {
             }else{
                 returnDate = formatter.format(w.getData_oddania());
             }
-            String[] row = {String.valueOf(w.getId()),String.valueOf(formatter.format(w.getData_wypozyczenia())), returnDate, String.valueOf(w.getKara()),String.valueOf(w.getEgzemplarz().getId()),String.valueOf(w.getCzytelnik().getId()),oddane};
+            String[] row = {String.valueOf(w.getId()),String.valueOf(formatter.format(w.getData_wypozyczenia())), returnDate, 
+                String.valueOf(w.getKara()),String.valueOf(w.getEgzemplarz().getKsiazka().getTytuł()),
+                String.valueOf(w.getCzytelnik().getImie()+ " " +w.getCzytelnik().getNazwisko()),oddane};
             tab.addRow(row);
         }
         return tab;
     }
     
+    public JComboBox getPieceBox() {
+        return pieceBox;
+    }
+
+    public JComboBox getReaderBox() {
+        return readerBox;
+    }
+    
+    public void setLendTableWidth(){
+        lendTable.getColumnModel().getColumn(0).setMinWidth(0);
+        lendTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        lendTable.getColumnModel().getColumn(0).setWidth(0);
+    }   
     /**
      * @param args the command line arguments
      */
@@ -548,10 +601,10 @@ public class LendCreator extends javax.swing.JFrame {
     private javax.swing.JLabel penalty;
     private javax.swing.JTextField penaltyField;
     private javax.swing.JLabel piece;
-    private javax.swing.JTextField pieceField;
+    private javax.swing.JComboBox<String> pieceBox;
     private javax.swing.JButton readLend;
     private javax.swing.JLabel reader;
-    private javax.swing.JTextField readerField;
+    private javax.swing.JComboBox<String> readerBox;
     private javax.swing.JButton recordLend;
     private javax.swing.JLabel returnDate;
     private javax.swing.JTextField returnDateField;

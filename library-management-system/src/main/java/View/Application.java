@@ -5,13 +5,18 @@
  */
 package view;
 
+import POJO.Bibliotekarz;
 import POJO.Czytelnik;
 import controllers.BookDetailController;
 import controllers.DataTableController;
 import controllers.LendController;
 import controllers.ReturnLendController;
 import controllers.SearchByController;
+import dao.KsiazkaDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import view.additional.ShowAuthors;
 import view.additional.ShowBooks;
 import view.additional.ShowCategories;
@@ -23,9 +28,16 @@ import view.additional.ShowPublishers;
  */
 public class Application extends javax.swing.JFrame {
     private Czytelnik czytelnik;
+    private Bibliotekarz bibliotekarz;
     /**
      * Creates new form Application
      */
+    
+    public Application(Bibliotekarz bibliotekarz){
+        this.bibliotekarz = bibliotekarz;
+        initComponents();
+    }
+    
     public Application(Czytelnik czytelnik) {
         this.czytelnik = czytelnik;
         initComponents();
@@ -80,7 +92,9 @@ public class Application extends javax.swing.JFrame {
         readCategories = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        menuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Library");
@@ -95,6 +109,13 @@ public class Application extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(searchTable);
+        if (searchTable.getColumnModel().getColumnCount() > 0) {
+            searchTable.getColumnModel().getColumn(0).setResizable(false);
+            searchTable.getColumnModel().getColumn(1).setResizable(false);
+            searchTable.getColumnModel().getColumn(2).setResizable(false);
+            searchTable.getColumnModel().getColumn(3).setResizable(false);
+            searchTable.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         titleField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -394,11 +415,33 @@ public class Application extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jMenu1.setText("Opcje");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        menuItem1.setText("Informacje");
+        menuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuItem1);
+
+        jMenuItem2.setText("Wyloguj");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem1.setText("Panel zarządzania");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -454,12 +497,22 @@ public class Application extends javax.swing.JFrame {
     }//GEN-LAST:event_readBooksActionPerformed
 
     private void detailSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailSearchActionPerformed
-        String tytul = searchField.getText();
-        BookDetailController bdc = new BookDetailController(tytul);
-        bdc.setAuthorLabel(authorLabel);
-        bdc.setCategoryLabel(categoryLabel);
-        bdc.setPublisherLabel(publisherLabel);
-        bdc.setDescriptionText(descriptionArea);
+        try {
+            String tytul = searchField.getText();
+            KsiazkaDAO ksid = new KsiazkaDAO();
+            if(ksid.bookExist(tytul)){
+                BookDetailController bdc = new BookDetailController(tytul);
+                bdc.setAuthorLabel(authorLabel);
+                bdc.setCategoryLabel(categoryLabel);
+                bdc.setPublisherLabel(publisherLabel);
+                bdc.setDescriptionText(descriptionArea);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Książka o podanym tytule nie istnieje.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_detailSearchActionPerformed
 
     private void titleSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleSearchButtonActionPerformed
@@ -487,18 +540,62 @@ public class Application extends javax.swing.JFrame {
     }//GEN-LAST:event_publisherSearchButtonActionPerformed
 
     private void returnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnButtonActionPerformed
-        ReturnLendController rlc = new ReturnLendController();
-        DataTableController dtc = new DataTableController();
-        rlc.returnLendActionPerformed(lendTable);
-        lendTable.setModel(dtc.dtmLend(czytelnik.getId()));
-        setLendTableWidth();
+        if(czytelnik!=null){
+            ReturnLendController rlc = new ReturnLendController();
+            DataTableController dtc = new DataTableController();
+            rlc.returnLendActionPerformed(lendTable);
+            lendTable.setModel(dtc.dtmLend(czytelnik.getId()));
+            setLendTableWidth();
+        }else{
+            JOptionPane.showMessageDialog(this, "Nie jesteś użytkownikiem.", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_returnButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        DataTableController dtc = new DataTableController();
-        lendTable.setModel(dtc.dtmLend(czytelnik.getId()));
-        setLendTableWidth();
+        if(czytelnik!=null){
+            DataTableController dtc = new DataTableController();
+            lendTable.setModel(dtc.dtmLend(czytelnik.getId()));
+            setLendTableWidth();
+        }else{
+            JOptionPane.showMessageDialog(this, "Nie jesteś użytkownikiem.", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_refreshButtonActionPerformed
+
+    
+    private void lendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lendButtonActionPerformed
+        if(czytelnik!=null){
+            LendController lc = new LendController();
+            lc.lendActionPerformed(searchTable, czytelnik);
+            setSearchTableWidth();
+        }else{
+            JOptionPane.showMessageDialog(this, "Nie jesteś użytkownikiem.", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_lendButtonActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        int input = JOptionPane.showConfirmDialog(null,
+                "Czy na pewno chcesz się wylogować?", "Wylogowanie", JOptionPane.DEFAULT_OPTION);
+        if(input==0){
+            this.dispose();
+            LoginForm lf = new LoginForm();
+            lf.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void menuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem1ActionPerformed
+        int input = JOptionPane.showConfirmDialog(null,
+            "Witaj w bibliotece. Po upływie 14 dni, za każdy dzień spóźnienia naliczamy 3.50zł kary.", "Wylogowanie", JOptionPane.DEFAULT_OPTION);
+    }//GEN-LAST:event_menuItem1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if(bibliotekarz!=null){
+            AdminFrame af = new AdminFrame(bibliotekarz);
+            this.dispose();
+            af.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Nie jesteś bibliotekarzem ani administratorem.", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public void setLendTableWidth(){
         lendTable.getColumnModel().getColumn(0).setMinWidth(0);
@@ -511,15 +608,6 @@ public class Application extends javax.swing.JFrame {
         searchTable.getColumnModel().getColumn(0).setMaxWidth(0);
         searchTable.getColumnModel().getColumn(0).setWidth(0);
     }
-    
-    private void lendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lendButtonActionPerformed
-        LendController lc = new LendController();
-        DataTableController dtc = new DataTableController();
-        lc.lendActionPerformed(searchTable, czytelnik);
-        searchTable.setModel(dtc.searchTableModel());
-        setSearchTableWidth();
-    }//GEN-LAST:event_lendButtonActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -571,8 +659,9 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -585,6 +674,7 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton lendButton;
     private javax.swing.JTable lendTable;
+    private javax.swing.JMenuItem menuItem1;
     private javax.swing.JTextField publisherField;
     private javax.swing.JLabel publisherLabel;
     private javax.swing.JButton publisherSearchButton;

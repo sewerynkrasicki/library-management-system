@@ -55,8 +55,7 @@ public class Adres {
     public String getKodPocztowy() {
         return kodPocztowy;
     }
-    
-    
+     
     public void setId(int id) {
         this.id = id;
     }
@@ -77,5 +76,8 @@ public class Adres {
         this.numerDomu = numerDomu;
     }
     
-    
+    @Override
+    public String toString() {
+        return getMiasto()+" "+getUlica()+" "+getNumerDomu();
+    }
 }

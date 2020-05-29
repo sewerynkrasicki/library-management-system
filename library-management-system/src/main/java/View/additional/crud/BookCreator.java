@@ -4,12 +4,17 @@
  * and open the template in the editor.
  */
 package view.additional.crud;
+import POJO.Autor;
+import POJO.Kategoria;
 import POJO.Ksiazka;
+import POJO.Wydawnictwo;
 import dao.KsiazkaDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
@@ -49,15 +54,15 @@ public class BookCreator extends javax.swing.JFrame {
         yearOfReleaseTitle = new javax.swing.JTextField();
         price = new javax.swing.JLabel();
         yearOfRelease = new javax.swing.JLabel();
-        authorField = new javax.swing.JTextField();
         priceField = new javax.swing.JTextField();
         categoryLabel = new javax.swing.JLabel();
         authorLabel = new javax.swing.JLabel();
         publisherLabel = new javax.swing.JLabel();
-        categoryField = new javax.swing.JTextField();
-        publisherField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         descriptionField = new javax.swing.JTextArea();
+        categoryBox = new javax.swing.JComboBox<>();
+        authorBox = new javax.swing.JComboBox<>();
+        publisherBox = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -133,27 +138,29 @@ public class BookCreator extends javax.swing.JFrame {
         yearOfRelease.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         yearOfRelease.setText("Rok wydania");
 
-        authorField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         priceField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         categoryLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        categoryLabel.setText("ID kategorii");
+        categoryLabel.setText("Kategoria");
 
         authorLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        authorLabel.setText("ID autora");
+        authorLabel.setText("Autor");
 
         publisherLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        publisherLabel.setText("ID wydawnictwa");
-
-        categoryField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        publisherField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        publisherLabel.setText("Wydawnictwo");
 
         descriptionField.setColumns(20);
         descriptionField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        descriptionField.setLineWrap(true);
         descriptionField.setRows(5);
+        descriptionField.setWrapStyleWord(true);
         jScrollPane2.setViewportView(descriptionField);
+
+        publisherBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                publisherBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,11 +200,11 @@ public class BookCreator extends javax.swing.JFrame {
                             .addComponent(publisherLabel))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(authorField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(categoryField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(priceField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(publisherField)
-                            .addComponent(yearOfReleaseTitle, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(yearOfReleaseTitle, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(categoryBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(authorBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(publisherBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -222,16 +229,16 @@ public class BookCreator extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoryLabel)
-                    .addComponent(categoryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(categoryBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(authorLabel)
-                    .addComponent(authorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(authorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(publisherLabel)
-                    .addComponent(publisherField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(publisherBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(deleteBook, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -250,17 +257,32 @@ public class BookCreator extends javax.swing.JFrame {
 
     private void addBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBookActionPerformed
         try {
-            if((titleField.getText().isEmpty() || descriptionField.getText().isEmpty() || yearOfReleaseTitle.getText().isEmpty() 
-                    || authorField.getText().isEmpty() || priceField.getText().isEmpty() || authorField.getText().isEmpty() || categoryField.getText().isEmpty() || publisherField.getText().isEmpty()))
-            {
+            String tf = titleField.getText();
+            String df = descriptionField.getText();
+            String year = yearOfReleaseTitle.getText();
+            String pf = priceField.getText();
+            
+            
+            if((tf.isEmpty() || df.isEmpty() || year.isEmpty()|| pf.isEmpty())){
                 JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
-            }         
+            }else if(!Pattern.matches("[0-9]{1,4}", year)){
+                JOptionPane.showMessageDialog(this, "Rok musi zawierać od 1 do 4 cyfr.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(!Pattern.matches("[0-9]*.[0-9]{1,2}", pf)){
+                JOptionPane.showMessageDialog(this, "Cena musi mieć część groszową.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(tf.length()>50){
+                JOptionPane.showMessageDialog(this, "Długość nie może być większa niż 50", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if(df.length()>500){
+                JOptionPane.showMessageDialog(this, "Opis nie może mieć więcej niż 500 znaków.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
             else{
                 KsiazkaDAO ksid = new KsiazkaDAO();
-                ksid.createBook(titleField.getText(), descriptionField.getText(), Integer.parseInt(yearOfReleaseTitle.getText()), 
-                        Double.parseDouble(priceField.getText()), Integer.parseInt(categoryField.getText()), Integer.parseInt(authorField.getText()), 
-                        Integer.parseInt(publisherField.getText()));
+                Autor a = (Autor) authorBox.getSelectedItem();
+                Kategoria k = (Kategoria) categoryBox.getSelectedItem();
+                Wydawnictwo w = (Wydawnictwo) publisherBox.getSelectedItem();
+                 
+                ksid.createBook(tf, df, Integer.parseInt(year),Double.parseDouble(pf), k.getId(), a.getId(), w.getId());
                  bookTable.setModel(dtm(ksid.readBook()));
+                 setPieceTableWidth();
             }
         } catch (Exception ex) {
             Logger.getLogger(BookCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -268,23 +290,42 @@ public class BookCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_addBookActionPerformed
 
     private void recordBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordBookActionPerformed
-        // TODO add your handling code here:
+
         try {
             if(bookTable.getSelectionModel().isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
             }else{
-                int selectedRow = bookTable.getSelectedRow();
-                DefaultTableModel dt = (DefaultTableModel)bookTable.getModel();
-                String title = dt.getValueAt(selectedRow, 1).toString();
-                
-                KsiazkaDAO ksid = new KsiazkaDAO();
-                Ksiazka ksi = ksid.getBook(title);
-                
-                ksid.updateBook(ksi, titleField.getText(), descriptionField.getText(), Integer.parseInt(yearOfReleaseTitle.getText()), 
-                        Double.parseDouble(priceField.getText()), Integer.parseInt(categoryField.getText()), Integer.parseInt(authorField.getText()), 
-                        Integer.parseInt(publisherField.getText()));
-                
-                bookTable.setModel(dtm(ksid.readBook()));
+                String tf = titleField.getText();
+                String df = descriptionField.getText();
+                String year = yearOfReleaseTitle.getText();
+                String pf = priceField.getText();
+                if((tf.isEmpty() || df.isEmpty() || year.isEmpty()|| pf.isEmpty())){
+                    JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(!Pattern.matches("[0-9]{1,4}", year)){
+                    JOptionPane.showMessageDialog(this, "Rok musi zawierać od 1 do 4 cyfr.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(!Pattern.matches("[0-9]*.[0-9]{1,2}", pf)){
+                    JOptionPane.showMessageDialog(this, "Cena musi mieć część groszową.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(tf.length()>50){
+                    JOptionPane.showMessageDialog(this, "Długość nie może być większa niż 50", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if(df.length()>500){
+                    JOptionPane.showMessageDialog(this, "Opis nie może mieć więcej niż 500 znaków.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    int selectedRow = bookTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)bookTable.getModel();
+                    String title = dt.getValueAt(selectedRow, 1).toString();
+
+                    KsiazkaDAO ksid = new KsiazkaDAO();
+                    Ksiazka ksi = ksid.getBook(title);
+                    Autor a = (Autor) authorBox.getSelectedItem();
+                    Kategoria k = (Kategoria) categoryBox.getSelectedItem();
+                    Wydawnictwo w = (Wydawnictwo) publisherBox.getSelectedItem();
+
+                    ksid.updateBook(ksi, tf, df, Integer.parseInt(year), 
+                            Double.parseDouble(pf), k.getId(), a.getId(), w.getId());
+
+                    bookTable.setModel(dtm(ksid.readBook()));
+                    setPieceTableWidth();
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(BookCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -292,7 +333,7 @@ public class BookCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_recordBookActionPerformed
 
     private void deleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookActionPerformed
-        // TODO add your handling code here:
+
         try {
             if(bookTable.getSelectionModel().isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
@@ -303,6 +344,7 @@ public class BookCreator extends javax.swing.JFrame {
                 int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
                 ksid.deleteBook(id);
                 bookTable.setModel(dtm(ksid.readBook()));
+                setPieceTableWidth();
             }
         } catch (Exception ex) {
             Logger.getLogger(BookCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -310,39 +352,36 @@ public class BookCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteBookActionPerformed
 
     private void readBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readBookActionPerformed
-        // TODO add your handling code here:
+
         try {
             KsiazkaDAO ksid = new KsiazkaDAO();
             bookTable.setModel(dtm(ksid.readBook()));
+            setPieceTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(BookCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readBookActionPerformed
 
     private void bookTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bookTableMouseClicked
-            // TODO add your handling code here:
-            
-            
+ 
             int selectedRow = bookTable.getSelectedRow();
             DefaultTableModel dt = (DefaultTableModel)bookTable.getModel();
             String text1 = (String)dt.getValueAt(selectedRow,1);
             String text2 = (String)dt.getValueAt(selectedRow,2);
             String text3 = (String)dt.getValueAt(selectedRow,3);
             String text4 = (String)dt.getValueAt(selectedRow,4);
-            String text5 = (String)dt.getValueAt(selectedRow,5);
-            String text6 = (String)dt.getValueAt(selectedRow,6);
-            String text7 = (String)dt.getValueAt(selectedRow,7);
             
             
             titleField.setText(text1);
             descriptionField.setText(text2);
             yearOfReleaseTitle.setText(text3);
             priceField.setText(text4);
-            categoryField.setText(text5);
-            authorField.setText(text6);
-            publisherField.setText(text7);
-            
+
     }//GEN-LAST:event_bookTableMouseClicked
+
+    private void publisherBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherBoxActionPerformed
+
+    }//GEN-LAST:event_publisherBoxActionPerformed
 
     private DefaultTableModel dtm(List<Ksiazka> ksi){
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory(); 
@@ -355,12 +394,32 @@ public class BookCreator extends javax.swing.JFrame {
         String[] columnNames = arrL.toArray(new String[0]);
         DefaultTableModel tab = new DefaultTableModel(columnNames, 0);
         for(Ksiazka k:ksi){
-            String[] row = {String.valueOf(k.getId()), k.getTytuł(), k.getOpis(), String.valueOf(k.getRokWydania()), String.valueOf(k.getCenaBiblioteki()), String.valueOf(k.getKategoria().getId()), 
-                    String.valueOf(k.getAutor().getId()), String.valueOf(k.getWydawnictwo().getId())};
+            String[] row = {String.valueOf(k.getId()), k.getTytuł(), k.getOpis(), String.valueOf(k.getRokWydania()), String.valueOf(k.getCenaBiblioteki()), String.valueOf(k.getKategoria().getNazwa()), 
+                    String.valueOf(k.getWydawnictwo().getNazwa()),String.valueOf(k.getAutor().getImie()+" "+k.getAutor().getNazwisko())};
             tab.addRow(row);
         }
         return tab;
     }
+    
+    public void setPieceTableWidth(){
+        bookTable.getColumnModel().getColumn(0).setMinWidth(0);
+        bookTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        bookTable.getColumnModel().getColumn(0).setWidth(0);
+    }   
+
+    public JComboBox getAuthorBox() {
+        return authorBox;
+    }
+
+    public JComboBox getCategoryBox() {
+        return categoryBox;
+    }
+
+    public JComboBox getPublisherBox() {
+        return publisherBox;
+    }
+    
+    
     
     /**
      * @param args the command line arguments
@@ -414,10 +473,10 @@ public class BookCreator extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBook;
-    private javax.swing.JTextField authorField;
+    private javax.swing.JComboBox<String> authorBox;
     private javax.swing.JLabel authorLabel;
     private javax.swing.JTable bookTable;
-    private javax.swing.JTextField categoryField;
+    private javax.swing.JComboBox<String> categoryBox;
     private javax.swing.JLabel categoryLabel;
     private javax.swing.JButton deleteBook;
     private javax.swing.JLabel description;
@@ -427,7 +486,7 @@ public class BookCreator extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel price;
     private javax.swing.JTextField priceField;
-    private javax.swing.JTextField publisherField;
+    private javax.swing.JComboBox<String> publisherBox;
     private javax.swing.JLabel publisherLabel;
     private javax.swing.JButton readBook;
     private javax.swing.JButton recordBook;

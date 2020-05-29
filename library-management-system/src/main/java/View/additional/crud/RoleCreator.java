@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -57,17 +59,9 @@ public class RoleCreator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "rola"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         roleTable.setColumnSelectionAllowed(true);
         roleTable.setShowGrid(true);
         roleTable.getTableHeader().setReorderingAllowed(false);
@@ -78,10 +72,6 @@ public class RoleCreator extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(roleTable);
         roleTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (roleTable.getColumnModel().getColumnCount() > 0) {
-            roleTable.getColumnModel().getColumn(0).setResizable(false);
-            roleTable.getColumnModel().getColumn(1).setResizable(false);
-        }
 
         addRole.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wizard.png"))); // NOI18N
         addRole.addActionListener(new java.awt.event.ActionListener() {
@@ -165,54 +155,80 @@ public class RoleCreator extends javax.swing.JFrame {
 
     private void addRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoleActionPerformed
         try {
-            RolaDAO rol = new RolaDAO();
-            rol.createRole(nameField.getText());
-            roleTable.setModel(dtm(rol.readRole()));
+            String nf = nameField.getText();
+            if(nf.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else if((!Pattern.matches("[A-Za-z]*", nf) || nf.length()>30)){
+                    JOptionPane.showMessageDialog(this, "Nazwa Roli musi zawierać tylko litery. Długość ma nie przekraczać 30 znaków.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                RolaDAO rol = new RolaDAO();
+                rol.createRole(nf);
+                roleTable.setModel(dtm(rol.readRole()));
+                setRoleTableWidth();
+            }
         } catch (Exception ex) {
             Logger.getLogger(RoleCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addRoleActionPerformed
 
     private void recordRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordRoleActionPerformed
-        // TODO add your handling code here:
+
         try {
-            RolaDAO rol = new RolaDAO();
-            int selectedRow = roleTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)roleTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            rol.updateRole(id, nameField.getText());
-            roleTable.setModel(dtm(rol.readRole()));
+            String nf = nameField.getText();
+            if(roleTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go zmodyfikować.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                if(nf.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Pola nie mogą być puste.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else if((!Pattern.matches("[A-Za-z]*", nf) || nf.length()>30)){
+                        JOptionPane.showMessageDialog(this, "Nazwa Roli musi zawierać tylko litery. Długość ma nie przekraczać 30 znaków.", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    RolaDAO rol = new RolaDAO();
+                    int selectedRow = roleTable.getSelectedRow();
+                    DefaultTableModel dt = (DefaultTableModel)roleTable.getModel();
+                    int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                    rol.updateRole(id, nf);
+                    roleTable.setModel(dtm(rol.readRole()));
+                    setRoleTableWidth();
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(RoleCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordRoleActionPerformed
 
     private void deleteRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRoleActionPerformed
-        // TODO add your handling code here:
+
         try {
-            RolaDAO rol = new RolaDAO();
-            int selectedRow = roleTable.getSelectedRow();
-            DefaultTableModel dt = (DefaultTableModel)roleTable.getModel();
-            int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
-            rol.deleteRole(id);
-            roleTable.setModel(dtm(rol.readRole()));
+            if(roleTable.getSelectionModel().isSelectionEmpty()){
+                JOptionPane.showMessageDialog(this, "Musisz zaznaczyć rekord, aby go usunąć.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }else{
+                RolaDAO rol = new RolaDAO();
+                int selectedRow = roleTable.getSelectedRow();
+                DefaultTableModel dt = (DefaultTableModel)roleTable.getModel();
+                int id = Integer.parseInt(dt.getValueAt(selectedRow, 0).toString());
+                rol.deleteRole(id);
+                roleTable.setModel(dtm(rol.readRole()));
+                setRoleTableWidth();
+            }
         } catch (Exception ex) {
             Logger.getLogger(RoleCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deleteRoleActionPerformed
 
     private void readRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readRoleActionPerformed
-        // TODO add your handling code here:
+
         try {
             RolaDAO rol = new RolaDAO();
             roleTable.setModel(dtm(rol.readRole()));
+            setRoleTableWidth();
         } catch (Exception ex) {
             Logger.getLogger(RoleCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_readRoleActionPerformed
 
     private void roleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roleTableMouseClicked
-        // TODO add your handling code here:
+
             int selectedRow = roleTable.getSelectedRow();
             DefaultTableModel dt = (DefaultTableModel)roleTable.getModel();
             String text1 = (String)dt.getValueAt(selectedRow,1);
@@ -236,6 +252,11 @@ public class RoleCreator extends javax.swing.JFrame {
         return tab;
     }
     
+    public void setRoleTableWidth(){
+        roleTable.getColumnModel().getColumn(0).setMinWidth(0);
+        roleTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        roleTable.getColumnModel().getColumn(0).setWidth(0);
+    } 
     /**
      * @param args the command line arguments
      */

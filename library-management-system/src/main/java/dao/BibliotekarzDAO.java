@@ -63,7 +63,7 @@ public List<Bibliotekarz> readLibrarian() throws Exception{
             bibliotekarz.setNazwisko(secondName);
             bibliotekarz.setEmail(email);
             bibliotekarz.setLogin(login);
-            bibliotekarz.setHaslo(email);
+            bibliotekarz.setHaslo(password);
             bibliotekarz.setAdres(adr);
             bibliotekarz.setRola(rol);
             getSession().update(bibliotekarz);
@@ -132,5 +132,24 @@ public List<Bibliotekarz> readLibrarian() throws Exception{
             rollback();
             throw new Exception("Nie moge znaleźć konkretnego bibliotekarza");
         }
-        }        
+        }
+
+        public boolean emailExist(String email) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Bibliotekarz where email = :email");
+            q.setParameter("email", email);
+            Bibliotekarz bibliotekarz = (Bibliotekarz)q.uniqueResult();
+            commit();
+            if(bibliotekarz==null)
+            {
+                return false;
+            }else{
+                return true;
+            }
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnego bibliotekarza");
+        }
+        }      
 }

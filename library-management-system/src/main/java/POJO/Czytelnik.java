@@ -112,5 +112,8 @@ public class Czytelnik {
         this.rola = rola;
     }
     
-    
+    @Override
+    public String toString() {
+        return getImie()+" "+getNazwisko()+ " " + getAdres().getKodPocztowy();
+    }
 }

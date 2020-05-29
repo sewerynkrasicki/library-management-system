@@ -37,6 +37,11 @@ public class EgzemplarzDAO extends DAO{
             begin();
             int stan = egzemplarz.getStan();
             egzemplarz.setStan(stan-1);
+            if(egzemplarz.getStan()>0){
+                egzemplarz.setDostepna(true);
+            }else{
+                egzemplarz.setDostepna(false);
+            }
             getSession().save(egzemplarz);
             commit();
         }catch(HibernateException ex){

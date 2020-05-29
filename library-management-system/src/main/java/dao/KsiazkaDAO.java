@@ -117,5 +117,23 @@ public List<Ksiazka> readBook() throws Exception{
             rollback();
             throw new Exception("Nie moge znaleźć konkretnej ksiazki");
         }	
-    }        
+    }     
+        public boolean bookExist(String title) throws Exception{
+         try{
+            begin();
+            Query q = getSession().createQuery("FROM Ksiazka where tytuł = :title");
+            q.setParameter("title", title);
+            Ksiazka ksiazka = (Ksiazka)q.uniqueResult();
+            commit();
+            if(ksiazka==null)
+            {
+                return false;
+            }else{
+                return true;
+            }
+        }catch(HibernateException ex){
+            rollback();
+            throw new Exception("Nie moge znaleźć konkretnej ksiazki");
+        }
+        }   
 }

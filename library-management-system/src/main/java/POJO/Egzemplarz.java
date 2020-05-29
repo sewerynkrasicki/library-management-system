@@ -69,4 +69,9 @@ public class Egzemplarz {
     public void setKsiazka(Ksiazka ksiazka) {
         this.ksiazka = ksiazka;
     }
+    
+    @Override
+    public String toString() {
+        return getKsiazka().getTytuł();
+    }
 }

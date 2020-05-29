@@ -44,9 +44,10 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
     <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=biblioteka</property>
     <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+    <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
     <property name="hibernate.connection.username">sewSQL</property>
-    <property name="hibernate.connection.password">20sql$@19</property>
-    <property name="hbm2ddl.auto">update</property>
+    <property name="hibernate.connection.password">pass</property>
+    <!--<property name="hbm2ddl.auto">update</property>-->
     <mapping resource="map/Kategoria.hbm.xml"/>
     <mapping resource="map/Autor.hbm.xml"/>
     <mapping resource="map/Adres.hbm.xml"/>
